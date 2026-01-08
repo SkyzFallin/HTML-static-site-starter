@@ -1,459 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Professional | CISSP, CCSP, SSCP</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOS Terminal</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
-            color: #e0e0e0;
-            line-height: 1.6;
-        }
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    .monitor {
+      width: 90vw;
+      max-width: 1000px;
+      height: 85vh;
+      background: #0a0a0a;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 100px rgba(51, 204, 51, 0.3);
+      position: relative;
+    }
 
-        header {
-            text-align: center;
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
-            border-radius: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #33cc33;
+      box-shadow: inset 0 0 50px rgba(51, 204, 51, 0.1);
+    }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(0, 255, 136, 0.1), 
-                rgba(0, 212, 255, 0.1),
-                transparent);
-            animation: scan 3s linear infinite;
-        }
+    .screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.3) 51%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 2;
+      animation: scanlines 8s linear infinite;
+    }
 
-        header::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: 
-                repeating-linear-gradient(0deg, 
-                    rgba(0, 255, 136, 0.03) 0px, 
-                    transparent 2px, 
-                    transparent 4px),
-                repeating-linear-gradient(90deg, 
-                    rgba(0, 212, 255, 0.03) 0px, 
-                    transparent 2px, 
-                    transparent 4px);
-            pointer-events: none;
-        }
+    .screen::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        @keyframes scan {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
+    @keyframes scanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
 
-        .matrix-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.15;
-            pointer-events: none;
-        }
+    .content {
+      position: relative;
+      z-index: 3;
+      color: #33cc33;
+      text-shadow: 0 0 5px #33cc33, 0 0 10px #33cc33;
+      animation: flicker 0.15s infinite alternate;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .matrix-col {
-            position: absolute;
-            top: -100%;
-            font-family: monospace;
-            font-size: 20px;
-            color: #00ff88;
-            animation: matrix-fall linear infinite;
-            text-shadow: 0 0 8px #00ff88;
-        }
+    @keyframes flicker {
+      0%, 100% { opacity: 0.98; }
+      50% { opacity: 1; }
+    }
 
-        @keyframes matrix-fall {
-            0% { top: -100%; }
-            100% { top: 100%; }
-        }
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #33cc33;
+      margin-bottom: 10px;
+    }
 
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            color: #00ff88;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.8), 0 0 40px rgba(0, 255, 136, 0.4);
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
+    .terminal-output {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-size: 14px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin-bottom: 10px;
+    }
 
-        .tagline {
-            font-size: 1.3em;
-            color: #ffffff;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            font-weight: 500;
-        }
+    .terminal-output::-webkit-scrollbar {
+      width: 8px;
+    }
 
-        .certs {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
-        }
+    .terminal-output::-webkit-scrollbar-track {
+      background: #000;
+    }
 
-        .cert-badge {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
-            color: #00ff88;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1em;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px solid rgba(0, 255, 136, 0.5);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            text-decoration: none;
-            display: inline-block;
-            cursor: pointer;
-        }
+    .terminal-output::-webkit-scrollbar-thumb {
+      background: #33cc33;
+    }
 
-        .cert-badge:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.6), inset 0 0 30px rgba(0, 255, 136, 0.2);
-            border-color: #00ff88;
-        }
+    .prompt {
+      display: flex;
+      font-size: 14px;
+      border-top: 1px solid #33cc33;
+      padding-top: 8px;
+    }
 
-        .section {
-            background: rgba(255,255,255,0.05);
-            padding: 40px;
-            margin-bottom: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: #33cc33;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
 
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
-        }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
 
-        h2 {
-            color: #ffffff;
-            font-size: 2em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            position: relative;
-            display: inline-block;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #00ff88, #00d4ff, #ffa500);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-
-        .section:hover h2::after {
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.8), 0 0 40px rgba(0, 212, 255, 0.4);
-        }
-
-        .experience {
-            font-size: 1.3em;
-            color: #ffa500;
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .service-card {
-            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
-            padding: 30px;
-            border-radius: 12px;
-            border-left: 4px solid #ffa500;
-            transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 255, 136, 0.15) 100%);
-            transform: translateX(10px);
-            border-left: 6px solid #00ff88;
-            box-shadow: 0 5px 25px rgba(0, 255, 136, 0.3);
-        }
-
-        .service-card h3 {
-            color: #ffffff;
-            margin-bottom: 15px;
-            font-size: 1.4em;
-            transition: color 0.3s ease;
-            font-weight: 700;
-        }
-
-        .service-card:hover h3 {
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-
-        .service-card p {
-            color: #b0b0b0;
-            line-height: 1.8;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 40px;
-            border-top: 2px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .contact-btn {
-            display: inline-block;
-            background: #ffa500;
-            color: #0a0e27;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
-            border: 2px solid #ffa500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.2);
-            transition: left 0.5s ease;
-        }
-
-        .contact-btn:hover::before {
-            left: 100%;
-        }
-
-        .contact-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(255, 165, 0, 0.6);
-            background: #00d4ff;
-            border-color: #00d4ff;
-            color: #0a0e27;
-        }ff 100%);
-            color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 102, 255, 0.4);
-        }
-
-        .contact-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(0, 102, 255, 0.6);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0, 255, 136, 0.1);
-            color: #00ff88;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            border: 2px solid rgba(0, 255, 136, 0.3);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
-        }
-
-        .social-link:hover {
-            background: rgba(0, 255, 136, 0.2);
-            border-color: #00ff88;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
-        }
-
-        .social-link svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-            
-            .section {
-                padding: 25px;
-            }
-        }
-    </style>
+    .line {
+      margin: 2px 0;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="matrix-bg" id="matrixBg"></div>
-            <h1>Cybersecurity Professional</h1>
-            <p class="tagline">Protecting Assets Through Advanced Security Solutions</p>
-            <div class="certs">
-                <a href="https://www.isc2.org/certifications/cissp" class="cert-badge" target="_blank" rel="noopener noreferrer">CISSP</a>
-                <a href="https://www.isc2.org/certifications/ccsp" class="cert-badge" target="_blank" rel="noopener noreferrer">CCSP</a>
-                <a href="https://www.isc2.org/certifications/sscp" class="cert-badge" target="_blank" rel="noopener noreferrer">SSCP</a>
-            </div>
-        </header>
-
-        <section class="section">
-            <h2>About</h2>
-            <p class="experience">12+ Years of Consulting Experience</p>
-            <p>Independent cybersecurity consultant and founder of a private security consulting practice based in the Pacific Northwest. With over a decade of hands-on experience protecting organizations from evolving cyber threats, I provide tailored security solutions that align with business objectives. Having lived in the PNW for over 20 years, I've cultivated deep connections within the information security community and built lasting relationships with industry professionals across the region. My consulting practice delivers proven expertise in identifying vulnerabilities, assessing risks, and implementing robust security measures across diverse environments. Committed to staying ahead of emerging threats and delivering comprehensive, actionable security strategies that drive real results.</p>
-        </section>
-
-        <section class="section">
-            <h2>Core Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Penetration Testing</h3>
-                    <p>Comprehensive ethical hacking services to identify security weaknesses before malicious actors can exploit them. Full-scope testing across networks, applications, and infrastructure.</p>
-                </div>
-                
-                <div class="service-card">
-                    <h3>Vulnerability Assessments</h3>
-                    <p>Systematic evaluation of security vulnerabilities in systems and networks. Detailed reporting with prioritized remediation recommendations based on risk levels.</p>
-                </div>
-                
-                <div class="service-card">
-                    <h3>Security Consulting</h3>
-                    <p>Strategic security advisory services to align security initiatives with business objectives. Architecture reviews, policy development, and security program maturity assessments.</p>
-                </div>
-                
-                <div class="service-card">
-                    <h3>Controls Audit</h3>
-                    <p>Independent assessment of security controls effectiveness. Compliance validation for frameworks including NIST, ISO 27001, and regulatory requirements.</p>
-                </div>
-                
-                <div class="service-card">
-                    <h3>Social Engineering</h3>
-                    <p>Human-factor security testing including phishing campaigns, vishing, and physical security assessments. Awareness training and behavioral risk analysis.</p>
-                </div>
-                
-                <div class="service-card">
-                    <h3>Risk Management</h3>
-                    <p>Comprehensive risk assessment and management services. Threat modeling, risk quantification, and development of risk treatment strategies.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2>Certifications</h2>
-            <p><strong>CISSP (Certified Information Systems Security Professional)</strong> - Advanced security practitioner certification demonstrating expertise across eight security domains.</p>
-            <p style="margin-top: 15px;"><strong>CCSP (Certified Cloud Security Professional)</strong> - Specialized certification in cloud security architecture, governance, and operations.</p>
-            <p style="margin-top: 15px;"><strong>SSCP (Systems Security Certified Practitioner)</strong> - Foundational security certification covering core security practices and implementation.</p>
-        </section>
-
-        <footer>
-            <h2>Let's Connect</h2>
-            <p>Ready to enhance your organization's security posture? Let's discuss how I can help protect your critical assets.</p>
-            <a href="mailto:contact@example.com" class="contact-btn">Get In Touch</a>
-            
-            <div class="social-links">
-                <a href="https://github.com/yourusername" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                </a>
-                
-                <a href="https://linkedin.com/in/yourusername" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                    LinkedIn
-                </a>
-            </div>
-        </footer>
+  <div class="monitor">
+    <div class="screen">
+      <div class="content">
+        <div class="status-bar">
+          <span>STATUS: ONLINE</span>
+          <span>MODE: WIN XP</span>
+          <span id="clock">03-15-08 / 00:00:00</span>
+        </div>
+        <div class="terminal-output" id="output"></div>
+        <div class="prompt">
+          <span>C:\&gt;</span>
+          <span class="cursor"></span>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Create matrix rain effect
-        const matrixBg = document.getElementById('matrixBg');
-        const chars = '01アイウエオカキクケコサシスセソタチツテト';
-        
-        for (let i = 0; i < 15; i++) {
-            const col = document.createElement('div');
-            col.className = 'matrix-col';
-            col.style.left = Math.random() * 100 + '%';
-            col.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            col.style.animationDelay = Math.random() * 2 + 's';
-            
-            let text = '';
-            for (let j = 0; j < 20; j++) {
-                text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
-            }
-            col.innerHTML = text;
-            matrixBg.appendChild(col);
+  <script>
+    const output = document.getElementById('output');
+    const clockEl = document.getElementById('clock');
+
+    // Update clock
+    function updateClock() {
+      const baseDate = new Date('2008-03-15T14:32:00');
+      const now = new Date();
+      const offset = now.getTime() - new Date('2026-01-07T00:00:00').getTime();
+      const xpTime = new Date(baseDate.getTime() + offset);
+      
+      const month = String(xpTime.getMonth() + 1).padStart(2, '0');
+      const day = String(xpTime.getDate()).padStart(2, '0');
+      const year = String(xpTime.getFullYear()).slice(-2);
+      const hours = String(xpTime.getHours()).padStart(2, '0');
+      const minutes = String(xpTime.getMinutes()).padStart(2, '0');
+      const seconds = String(xpTime.getSeconds()).padStart(2, '0');
+      clockEl.textContent = `${month}-${day}-${year} / ${hours}:${minutes}:${seconds}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Command sequence
+    const commands = [
+      { text: 'Microsoft Windows XP [Version 5.1.2600]', delay: 100 },
+      { text: '(C) Copyright 1985-2001 Microsoft Corp.', delay: 50 },
+      { text: '', delay: 300 },
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'systeminfo', delay: 800, typed: true },
+      { text: '', delay: 200 },
+      { text: 'Host Name:                 WORKSTATION-01', delay: 50 },
+      { text: 'OS Name:                   Microsoft Windows XP Professional', delay: 50 },
+      { text: 'OS Version:                5.1.2600 Service Pack 3 Build 2600', delay: 50 },
+      { text: 'OS Manufacturer:           Microsoft Corporation', delay: 50 },
+      { text: 'System Manufacturer:       Dell Inc.', delay: 50 },
+      { text: 'System Model:              OptiPlex GX620', delay: 50 },
+      { text: 'Processor:                 Intel(R) Pentium(R) 4 CPU 3.20GHz', delay: 50 },
+      { text: 'Total Physical Memory:     2,048 MB', delay: 50 },
+      { text: 'Available Physical Memory: 1,247 MB', delay: 50 },
+      { text: '', delay: 800 },
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'net user', delay: 700, typed: true },
+      { text: '', delay: 100 },
+      { text: 'User accounts for \\\\WORKSTATION-01', delay: 50 },
+      { text: '', delay: 50 },
+      { text: '-------------------------------------------------------------------------------', delay: 30 },
+      { text: 'Administrator            Guest                    SUPPORT_388945a0', delay: 30 },
+      { text: 'SQLService               IIS_WPG                  ASPNET', delay: 30 },
+      { text: 'The command completed successfully.', delay: 50 },
+      { text: '', delay: 900 },
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'cd C:\\WINDOWS\\system32\\config', delay: 900, typed: true },
+      { text: '', delay: 200 },
+      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
+      { text: 'dir /a', delay: 800, typed: true },
+      { text: '', delay: 100 },
+      { text: ' Volume in drive C has no label.', delay: 50 },
+      { text: ' Volume Serial Number is 3C4D-5E6F', delay: 50 },
+      { text: '', delay: 50 },
+      { text: ' Directory of C:\\WINDOWS\\system32\\config', delay: 50 },
+      { text: '', delay: 50 },
+      { text: '01/07/2008  09:42 AM    <DIR>          .', delay: 30 },
+      { text: '01/07/2008  09:42 AM    <DIR>          ..', delay: 30 },
+      { text: '01/07/2008  09:40 AM           262,144 SAM', delay: 30 },
+      { text: '01/07/2008  09:40 AM         8,388,608 SYSTEM', delay: 30 },
+      { text: '01/07/2008  09:40 AM           524,288 SECURITY', delay: 30 },
+      { text: '01/07/2008  09:40 AM        12,582,912 SOFTWARE', delay: 30 },
+      { text: '01/07/2008  09:40 AM         2,097,152 DEFAULT', delay: 30 },
+      { text: '               5 File(s)     23,855,104 bytes', delay: 50 },
+      { text: '               2 Dir(s)  42,949,672,960 bytes free', delay: 50 },
+      { text: '', delay: 1000 },
+      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
+      { text: 'pwdump.exe SAM SYSTEM', delay: 1200, typed: true },
+      { text: '', delay: 100 },
+      { text: 'PwDump v7.1 - Raw Password Extractor', delay: 50 },
+      { text: 'Copyright (C) 2003-2008 fizzgig and the mighty Hernan Ochoa', delay: 50 },
+      { text: '', delay: 100 },
+      { text: 'Opening SAM hive...', delay: 200 },
+      { text: 'Opening SYSTEM hive...', delay: 200 },
+      { text: 'Extracting password hashes...', delay: 300 },
+      { text: '', delay: 200 },
+      { text: 'Administrator:500:E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C:::', delay: 60 },
+      { text: 'Guest:501:NO PASSWORD*********************:NO PASSWORD*********************:::', delay: 60 },
+      { text: 'SUPPORT_388945a0:1002:NO PASSWORD*********************:8A4F2D6E9C1B7F3A5D8C9E2B4F7A1D6E:::', delay: 60 },
+      { text: 'SQLService:1003:8C4F2D9A6E1B7F3A5D8C9E2B4F7A1D6E:3A7F9D2C8E5B1A4F6D9C2E8B5A7F3D1C:::', delay: 60 },
+      { text: 'IIS_WPG:1004:D4F8A3E9B2C7F1E6A8D5B9C3E7A2F4D8:7E9B2C5F8A3D6E1B4C9A7F2E5D8B3A6C:::', delay: 60 },
+      { text: 'ASPNET:1005:9B2F4A8C6E1D7F3A5D8C9E2B4F7A1D6E:2C7E9B4A8F3D6E1B4C9A7F2E5D8B3A6C:::', delay: 60 },
+      { text: '', delay: 400 },
+      { text: '6 hashes dumped successfully.', delay: 50 },
+      { text: '', delay: 1000 },
+      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
+      { text: 'type > C:\\output.txt', delay: 900, typed: true },
+      { text: '', delay: 200 },
+      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
+      { text: 'cd\\', delay: 600, typed: true },
+      { text: '', delay: 200 },
+      { text: 'C:\\>', delay: 50, noBreak: true },
+      { text: 'type output.txt', delay: 1000, typed: true },
+      { text: '', delay: 100 },
+      { text: 'Administrator:500:E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C:::', delay: 40 },
+      { text: 'Guest:501:NO PASSWORD*********************:NO PASSWORD*********************:::', delay: 40 },
+      { text: 'SUPPORT_388945a0:1002:NO PASSWORD*********************:8A4F2D6E9C1B7F3A5D8C9E2B4F7A1D6E:::', delay: 40 },
+      { text: 'SQLService:1003:8C4F2D9A6E1B7F3A5D8C9E2B4F7A1D6E:3A7F9D2C8E5B1A4F6D9C2E8B5A7F3D1C:::', delay: 40 },
+      { text: 'IIS_WPG:1004:D4F8A3E9B2C7F1E6A8D5B9C3E7A2F4D8:7E9B2C5F8A3D6E1B4C9A7F2E5D8B3A6C:::', delay: 40 },
+      { text: 'ASPNET:1005:9B2F4A8C6E1D7F3A5D8C9E2B4F7A1D6E:2C7E9B4A8F3D6E1B4C9A7F2E5D8B3A6C:::', delay: 40 },
+      { text: '', delay: 2000 },
+      { text: 'C:\\>', delay: 50, noBreak: true },
+      { text: '', delay: 3000 }
+    ];
+
+    let cmdIndex = 0;
+    let charIndex = 0;
+    let currentLine = null;
+
+    function typeCommand() {
+      if (cmdIndex >= commands.length) {
+        cmdIndex = 0;
+        setTimeout(typeCommand, 5000);
+        return;
+      }
+
+      const cmd = commands[cmdIndex];
+
+      if (cmd.typed) {
+        if (charIndex === 0) {
+          currentLine = document.createElement('span');
+          currentLine.textContent = cmd.text.substring(0, 1);
+          output.lastChild.textContent += currentLine.textContent;
+          charIndex = 1;
+          setTimeout(typeCommand, 80 + Math.random() * 120);
+        } else if (charIndex < cmd.text.length) {
+          output.lastChild.textContent += cmd.text[charIndex];
+          charIndex++;
+          setTimeout(typeCommand, 80 + Math.random() * 120);
+        } else {
+          const lineBreak = document.createElement('div');
+          lineBreak.className = 'line';
+          output.appendChild(lineBreak);
+          charIndex = 0;
+          cmdIndex++;
+          setTimeout(typeCommand, cmd.delay);
         }
-    </script>
+      } else {
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.textContent = cmd.text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+        cmdIndex++;
+        setTimeout(typeCommand, cmd.delay);
+      }
+    }
+
+    setTimeout(typeCommand, 500);
+
+    // Disable user input to maintain illusion
+    document.addEventListener('keydown', (e) => {
+      e.preventDefault();
+    });
+  </script>
 </body>
 </html>
