@@ -371,10 +371,19 @@
     let cmdIndex = 0;
     let charIndex = 0;
     let currentLine = null;
+    let loopCount = 0;
 
     function typeCommand() {
       if (cmdIndex >= commands.length) {
         cmdIndex = 0;
+        loopCount++;
+        
+        // Clear terminal after 10 loops
+        if (loopCount >= 10) {
+          output.innerHTML = '';
+          loopCount = 0;
+        }
+        
         setTimeout(typeCommand, 5000);
         return;
       }
