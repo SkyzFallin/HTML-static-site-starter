@@ -1,3 +1,3 @@
-Contact: https://github.com/SkyzFallin
+Contact: wes@wescastle.com
 Preferred-Languages: en
 Canonical: https://wescastle.com/.well-known/security.txt
