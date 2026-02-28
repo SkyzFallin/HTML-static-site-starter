@@ -25,4 +25,4 @@ npx serve .
 
 ## License
 
-MIT
+GNU GPLv3 (see `LICENSE`)
