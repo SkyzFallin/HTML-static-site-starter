@@ -186,6 +186,16 @@
       50% { opacity: 1; }
     }
 
+    /* Accessibility: respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      .content {
+        animation: none;
+      }
+      .screen::before {
+        animation: none;
+      }
+    }
+
     .contact-bar {
       display: flex;
       justify-content: space-between;
@@ -237,28 +247,32 @@
       background: #33cc33;
     }
 
-    .prompt {
-      display: flex;
-      font-size: 14px;
-      padding-top: 8px;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 8px;
-      height: 16px;
-      background: #33cc33;
-      margin-left: 2px;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
     .line {
       margin: 2px 0;
+    }
+
+    /* Pause indicator */
+    .pause-indicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      color: #33cc33;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-shadow: 0 0 8px #33cc33, 0 0 16px #33cc33;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 18px;
+      border: 1px solid rgba(51, 204, 51, 0.4);
+    }
+
+    .pause-indicator.visible {
+      opacity: 1;
     }
   </style>
 </head>
@@ -271,6 +285,7 @@
       <div class="monitor-button"></div>
     </div>
     <div class="screen">
+      <div class="pause-indicator" id="pauseIndicator">[ PAUSED ]</div>
       <div class="content">
         <div class="contact-bar">
           <span>CONTACT: <canvas id="emailCanvas" height="16" style="vertical-align: middle; image-rendering: pixelated;"></canvas></span>
@@ -279,7 +294,7 @@
         <div class="status-bar">
           <span>STATUS: ONLINE</span>
           <span>MODE: WIN XP</span>
-          <span id="clock">03-15-08 / 00:00:00</span>
+          <span id="clock">05-12-08 / 00:00:00</span>
         </div>
         <div class="terminal-output" id="output"></div>
       </div>
@@ -305,14 +320,42 @@
 
     const output = document.getElementById('output');
     const clockEl = document.getElementById('clock');
+    const pauseIndicator = document.getElementById('pauseIndicator');
 
-    // Update clock
+    // Pause/resume on click
+    let paused = false;
+    let pendingFn = null;
+    let pendingDelay = null;
+
+    function scheduledTimeout(fn, delay) {
+      if (paused) {
+        pendingFn = fn;
+        pendingDelay = delay;
+      } else {
+        setTimeout(fn, delay);
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      paused = !paused;
+      pauseIndicator.classList.toggle('visible', paused);
+      if (!paused && pendingFn) {
+        const fn = pendingFn;
+        const delay = pendingDelay;
+        pendingFn = null;
+        pendingDelay = null;
+        setTimeout(fn, delay);
+      }
+    });
+
+    // Clock anchored to page load, always ticks forward from the XP date
+    const clockPageLoadTime = Date.now();
+    const clockBaseDate = new Date('2008-05-12T14:32:00');
+
     function updateClock() {
-      const baseDate = new Date('2008-03-15T14:32:00');
-      const now = new Date();
-      const offset = now.getTime() - new Date('2026-01-07T00:00:00').getTime();
-      const xpTime = new Date(baseDate.getTime() + offset);
-      
+      const elapsed = Date.now() - clockPageLoadTime;
+      const xpTime = new Date(clockBaseDate.getTime() + elapsed);
       const month = String(xpTime.getMonth() + 1).padStart(2, '0');
       const day = String(xpTime.getDate()).padStart(2, '0');
       const year = String(xpTime.getFullYear()).slice(-2);
@@ -324,11 +367,16 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Command sequence
+    // Command sequence — period-accurate May 2008 pentest
+    // Tools used: systeminfo, net user, ipconfig, fgdump (2008), psexec (Sysinternals, 2006+),
+    // gsecdump (2008), cachedump. All existed and were widely used during this era.
     const commands = [
+      // Boot / initial shell
       { text: 'Microsoft Windows XP [Version 5.1.2600]', delay: 100 },
       { text: '(C) Copyright 1985-2001 Microsoft Corp.', delay: 50 },
       { text: '', delay: 300 },
+
+      // Phase 1: Local enumeration
       { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
       { text: 'systeminfo', delay: 800, typed: true },
       { text: '', delay: 200 },
@@ -342,6 +390,7 @@
       { text: 'Total Physical Memory:     2,048 MB', delay: 50 },
       { text: 'Available Physical Memory: 1,247 MB', delay: 50 },
       { text: '', delay: 800 },
+
       { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
       { text: 'net user', delay: 700, typed: true },
       { text: '', delay: 100 },
@@ -352,45 +401,107 @@
       { text: 'SQLService               IIS_WPG                  ASPNET', delay: 30 },
       { text: 'The command completed successfully.', delay: 50 },
       { text: '', delay: 900 },
+
       { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
-      { text: 'D:\\pwdump.exe C:\\WINDOWS\\system32\\config\\SAM C:\\WINDOWS\\system32\\config\\SYSTEM', delay: 1200, typed: true },
+      { text: 'ipconfig', delay: 600, typed: true },
       { text: '', delay: 100 },
-      { text: 'PwDump v7.1 - Raw Password Extractor', delay: 50 },
-      { text: 'Copyright (C) 2003-2008 fizzgig and the mighty Hernan Ochoa', delay: 50 },
-      { text: '', delay: 100 },
-      { text: 'Opening SAM hive...', delay: 200 },
-      { text: 'Opening SYSTEM hive...', delay: 200 },
-      { text: 'Extracting password hashes...', delay: 300 },
+      { text: 'Windows IP Configuration', delay: 50 },
+      { text: '', delay: 50 },
+      { text: 'Ethernet adapter Local Area Connection:', delay: 50 },
+      { text: '', delay: 50 },
+      { text: '   Connection-specific DNS Suffix  . : corp.local', delay: 30 },
+      { text: '   IP Address. . . . . . . . . . . . : 192.168.1.50', delay: 30 },
+      { text: '   Subnet Mask . . . . . . . . . . . : 255.255.255.0', delay: 30 },
+      { text: '   Default Gateway . . . . . . . . . : 192.168.1.1', delay: 30 },
+      { text: '', delay: 800 },
+
+      // Phase 2: Local credential extraction with fgdump
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'D:\\fgdump.exe', delay: 1000, typed: true },
       { text: '', delay: 200 },
+      { text: 'fgDump 2.1.0 - fizzgig and the mighty group at foofus.net', delay: 50 },
+      { text: 'Written to perform password auditing on Windows NT class systems', delay: 50 },
+      { text: '', delay: 100 },
+      { text: '--- Session ID: 2008-05-12-14-32-07 ---', delay: 50 },
+      { text: '--- Beginning dump on 127.0.0.1 ---', delay: 200 },
+      { text: '', delay: 100 },
+      { text: '--- Performing cache dump ---', delay: 200 },
+      { text: 'Cached credentials found: 3', delay: 50 },
+      { text: 'CORP.LOCAL:jsmith:E52CAC67419A9A224A3B108F3FA6CB6D', delay: 60 },
+      { text: 'CORP.LOCAL:mjones:4A8F2D9C6E1B7F3A5D8C9E2B4F7A1D6E', delay: 60 },
+      { text: 'CORP.LOCAL:svc_backup:2F6A9D4C8E3B7A1F4C9D2E8B5A3F7C1D', delay: 60 },
+      { text: '', delay: 200 },
+      { text: '--- Performing local SAM dump ---', delay: 300 },
       { text: 'Administrator:500:E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C:::', delay: 60 },
       { text: 'Guest:501:NO PASSWORD*********************:NO PASSWORD*********************:::', delay: 60 },
       { text: 'SUPPORT_388945a0:1002:NO PASSWORD*********************:8A4F2D6E9C1B7F3A5D8C9E2B4F7A1D6E:::', delay: 60 },
       { text: 'SQLService:1003:8C4F2D9A6E1B7F3A5D8C9E2B4F7A1D6E:3A7F9D2C8E5B1A4F6D9C2E8B5A7F3D1C:::', delay: 60 },
       { text: 'IIS_WPG:1004:D4F8A3E9B2C7F1E6A8D5B9C3E7A2F4D8:7E9B2C5F8A3D6E1B4C9A7F2E5D8B3A6C:::', delay: 60 },
       { text: 'ASPNET:1005:9B2F4A8C6E1D7F3A5D8C9E2B4F7A1D6E:2C7E9B4A8F3D6E1B4C9A7F2E5D8B3A6C:::', delay: 60 },
-      { text: '', delay: 400 },
-      { text: '6 hashes dumped successfully.', delay: 50 },
+      { text: '', delay: 200 },
+      { text: '--- Dump on 127.0.0.1 complete. 6 local, 3 cached credentials found. ---', delay: 50 },
       { text: '', delay: 1000 },
+
+      // Phase 3: Network recon
       { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
-      { text: 'psexec.py -hashes E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C CORP/Administrator@192.168.1.1', delay: 1400, paste: true },
-      { text: '', delay: 300 },
-      { text: 'Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation', delay: 50 },
+      { text: 'net view /domain:corp', delay: 900, typed: true },
       { text: '', delay: 100 },
-      { text: '[*] Requesting shares on 192.168.1.1.....', delay: 300 },
-      { text: '[*] Found writable share ADMIN$', delay: 200 },
-      { text: '[*] Uploading file bYQkThxC.exe', delay: 400 },
-      { text: '[*] Opening SVCManager on 192.168.1.1.....', delay: 300 },
-      { text: '[*] Creating service RKHt on 192.168.1.1.....', delay: 400 },
-      { text: '[*] Starting service RKHt.....', delay: 500 },
+      { text: 'Server Name            Remark', delay: 50 },
+      { text: '-------------------------------------------------------------------------------', delay: 30 },
+      { text: '\\\\DC01                  Domain Controller', delay: 30 },
+      { text: '\\\\DC02                  Backup Domain Controller', delay: 30 },
+      { text: '\\\\FILESERV01            File Server', delay: 30 },
+      { text: '\\\\SQLSERV01             SQL Server', delay: 30 },
+      { text: '\\\\WORKSTATION-01', delay: 30 },
+      { text: '\\\\WORKSTATION-02', delay: 30 },
+      { text: '\\\\WORKSTATION-03', delay: 30 },
+      { text: 'The command completed successfully.', delay: 50 },
+      { text: '', delay: 900 },
+
+      // Phase 4: Lateral movement to DC via Sysinternals psexec + pass-the-hash
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'D:\\psexec.exe \\\\192.168.1.10 -u CORP\\Administrator -p Sup3rS3cur3! cmd.exe', delay: 1400, typed: true },
+      { text: '', delay: 300 },
+      { text: 'PsExec v1.98 - Execute processes remotely', delay: 50 },
+      { text: 'Copyright (C) 2001-2008 Mark Russinovich', delay: 50 },
+      { text: 'Sysinternals - www.sysinternals.com', delay: 50 },
+      { text: '', delay: 400 },
+      { text: 'Connecting to 192.168.1.10...', delay: 500 },
+      { text: 'Starting PSEXESVC service on 192.168.1.10...', delay: 600 },
+      { text: 'Connecting with PsExec service on 192.168.1.10...', delay: 400 },
+      { text: 'Starting cmd.exe on 192.168.1.10...', delay: 500 },
       { text: '', delay: 200 },
       { text: 'Microsoft Windows [Version 5.2.3790]', delay: 50 },
       { text: '(C) Copyright 1985-2003 Microsoft Corp.', delay: 50 },
       { text: '', delay: 300 },
+
+      // Phase 5: On DC — verify access, enumerate domain
       { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
       { text: 'whoami', delay: 700, typed: true },
       { text: '', delay: 100 },
-      { text: 'CORP\\Administrator', delay: 50 },
+      { text: 'corp\\administrator', delay: 50 },
       { text: '', delay: 600 },
+
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'hostname', delay: 500, typed: true },
+      { text: '', delay: 100 },
+      { text: 'DC01', delay: 50 },
+      { text: '', delay: 600 },
+
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'net group "Domain Admins" /domain', delay: 1100, typed: true },
+      { text: '', delay: 100 },
+      { text: 'The request will be processed at a domain controller for domain corp.local.', delay: 50 },
+      { text: '', delay: 100 },
+      { text: 'Group name     Domain Admins', delay: 30 },
+      { text: 'Comment        Designated administrators of the domain', delay: 30 },
+      { text: '', delay: 30 },
+      { text: 'Members', delay: 30 },
+      { text: '-------------------------------------------------------------------------------', delay: 30 },
+      { text: 'Administrator            svc_backup', delay: 30 },
+      { text: 'The command completed successfully.', delay: 50 },
+      { text: '', delay: 900 },
+
       { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
       { text: 'net group "Domain Controllers" /domain', delay: 1100, typed: true },
       { text: '', delay: 100 },
@@ -404,55 +515,41 @@
       { text: 'DC01$                    DC02$', delay: 30 },
       { text: 'The command completed successfully.', delay: 50 },
       { text: '', delay: 900 },
+
+      // Phase 6: Dump DC hashes with gsecdump
       { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
-      { text: 'D:\\mimikatz.exe', delay: 1000, typed: true },
+      { text: 'D:\\gsecdump.exe -a', delay: 1000, typed: true },
       { text: '', delay: 200 },
-      { text: '  .#####.   mimikatz 2.2.0 (x64) #19041 Sep 19 2022 17:44:08', delay: 50 },
-      { text: ' .## ^ ##.  "A La Vie, A L\'Amour" - (oe.eo)', delay: 50 },
-      { text: ' ## / \\ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )', delay: 50 },
-      { text: ' ## \\ / ##       > https://blog.gentilkiwi.com/mimikatz', delay: 50 },
-      { text: ' \'## v ##\'       Vincent LE TOUX             ( vincent.letoux@gmail.com )', delay: 50 },
-      { text: '  \'#####\'        > https://pingcastle.com / https://mysmartlogon.com ***/', delay: 50 },
-      { text: '', delay: 400 },
-      { text: 'mimikatz #', delay: 50, noBreak: true },
-      { text: 'privilege::debug', delay: 900, typed: true },
-      { text: '', delay: 100 },
-      { text: 'Privilege \'20\' OK', delay: 50 },
-      { text: '', delay: 600 },
-      { text: 'mimikatz #', delay: 50, noBreak: true },
-      { text: 'lsadump::dcsync /domain:corp.local /all /csv', delay: 1100, typed: true },
-      { text: '', delay: 200 },
-      { text: '[DC] \'corp.local\' will be the domain', delay: 50 },
-      { text: '[DC] \'DC01.corp.local\' will be the DC server', delay: 50 },
-      { text: '[DC] Exporting domain \'corp.local\'', delay: 50 },
-      { text: '[rpc] Service  : ldap', delay: 50 },
-      { text: '[rpc] AuthnSvc : GSS_NEGOTIATE (9)', delay: 50 },
+      { text: 'gsecdump v0.7 - Dump SAM, LSA secrets and domain cached credentials', delay: 50 },
+      { text: 'Copyright (C) 2007-2008 TrueSec', delay: 50 },
       { text: '', delay: 300 },
-      { text: '502\tkrbtgt\t3E4A7F9C2B8D1E6A5C9B4F7D2E8A3C6B\t514', delay: 40 },
-      { text: '500\tAdministrator\t8846F7EAEE8FB117AD06BDD830B7586C\t512', delay: 40 },
-      { text: '1103\tjsmith\t9C2E7B4A8F3D6E1B4C9A7F2E5D8B3A6C\t512', delay: 40 },
-      { text: '1104\tmjones\t4A8F2D9C6E1B7F3A5D8C9E2B4F7A1D6E\t512', delay: 40 },
-      { text: '1105\tsvc_sql\t8D3F7A2C9E6B4A1F5C8D2E9B6A4F7C3E\t512', delay: 40 },
-      { text: '1106\tsvc_backup\t2F6A9D4C8E3B7A1F4C9D2E8B5A3F7C1D\t512', delay: 40 },
-      { text: '1107\thelpdesk\t6C1E4A9F7D3B8A2C5E9F1D6A4B7C3E8F\t512', delay: 40 },
-      { text: '1108\tdbadmin\t1A5D8C3F9E7B2A6D4C8F3E1B9A7D5C2F\t512', delay: 40 },
-      { text: '1001\tDC01$\t7B4F9A2E8C6D3B7A5F2C9E4D8B1A6F3C\t532480', delay: 40 },
-      { text: '1002\tDC02$\t3C8E1A6F4D9C2B7E5A3F8D1C6E9B4A7F\t532480', delay: 40 },
-      { text: '', delay: 600 },
-      { text: 'mimikatz #', delay: 50, noBreak: true },
-      { text: 'lsadump::dcsync /domain:corp.local /all /csv > D:\\corp_hashes.txt', delay: 1100, typed: true },
+      { text: 'SAM hashes:', delay: 50 },
+      { text: 'Administrator:500:E52CAC67419A9A224A3B108F3FA6CB6D:8846F7EAEE8FB117AD06BDD830B7586C:::', delay: 40 },
+      { text: 'Guest:501:NO PASSWORD*********************:NO PASSWORD*********************:::', delay: 40 },
+      { text: 'krbtgt:502:NO PASSWORD*********************:3E4A7F9C2B8D1E6A5C9B4F7D2E8A3C6B:::', delay: 40 },
+      { text: 'jsmith:1103:9C2E7B4A8F3D6E1B:9C2E7B4A8F3D6E1B4C9A7F2E5D8B3A6C:::', delay: 40 },
+      { text: 'mjones:1104:4A8F2D9C6E1B7F3A:4A8F2D9C6E1B7F3A5D8C9E2B4F7A1D6E:::', delay: 40 },
+      { text: 'svc_sql:1105:8D3F7A2C9E6B4A1F:8D3F7A2C9E6B4A1F5C8D2E9B6A4F7C3E:::', delay: 40 },
+      { text: 'svc_backup:1106:2F6A9D4C8E3B7A1F:2F6A9D4C8E3B7A1F4C9D2E8B5A3F7C1D:::', delay: 40 },
+      { text: 'helpdesk:1107:6C1E4A9F7D3B8A2C:6C1E4A9F7D3B8A2C5E9F1D6A4B7C3E8F:::', delay: 40 },
+      { text: 'dbadmin:1108:1A5D8C3F9E7B2A6D:1A5D8C3F9E7B2A6D4C8F3E1B9A7D5C2F:::', delay: 40 },
       { text: '', delay: 200 },
-      { text: '[DC] \'corp.local\' will be the domain', delay: 50 },
-      { text: '[DC] \'DC01.corp.local\' will be the DC server', delay: 50 },
-      { text: '[DC] Exporting domain \'corp.local\'', delay: 50 },
-      { text: '[rpc] Service  : ldap', delay: 50 },
-      { text: '[rpc] AuthnSvc : GSS_NEGOTIATE (9)', delay: 50 },
+      { text: 'LSA Secrets:', delay: 50 },
+      { text: '_SC_SQLService', delay: 40 },
+      { text: '  0000  53 75 70 33 72 53 33 63 75 72 33 21            Sup3rS3cur3!', delay: 40 },
+      { text: '', delay: 200 },
+      { text: 'Cached domain credentials:', delay: 50 },
+      { text: 'CORP.LOCAL:Administrator:8846F7EAEE8FB117AD06BDD830B7586C', delay: 40 },
+      { text: 'CORP.LOCAL:svc_backup:2F6A9D4C8E3B7A1F4C9D2E8B5A3F7C1D', delay: 40 },
+      { text: '', delay: 200 },
+      { text: '--- 9 SAM hashes, 1 LSA secret, 2 cached credentials dumped ---', delay: 50 },
       { text: '', delay: 800 },
-      { text: 'mimikatz #', delay: 50, noBreak: true },
-      { text: 'exit', delay: 700, typed: true },
-      { text: '', delay: 100 },
-      { text: 'Bye!', delay: 50 },
+
+      // Phase 7: Exfil — copy hashes to USB
+      { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
+      { text: 'D:\\gsecdump.exe -a > D:\\dc01_dump.txt', delay: 1000, typed: true },
       { text: '', delay: 400 },
+
       { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
       { text: 'dir D:\\', delay: 700, typed: true },
       { text: '', delay: 100 },
@@ -461,18 +558,22 @@
       { text: '', delay: 50 },
       { text: ' Directory of D:\\', delay: 50 },
       { text: '', delay: 50 },
-      { text: '01/07/2008  10:14 AM             786,432 mimikatz.exe', delay: 30 },
-      { text: '01/07/2008  10:14 AM              32,768 mimikatz.pdb', delay: 30 },
-      { text: '01/07/2008  10:14 AM             786,432 pwdump.exe', delay: 30 },
-      { text: '01/07/2008  10:22 AM               4,318 corp_hashes.txt', delay: 30 },
-      { text: '               4 File(s)      1,609,950 bytes', delay: 50 },
+      { text: '05/12/2008  10:14 AM              94,208 fgdump.exe', delay: 30 },
+      { text: '05/12/2008  10:14 AM              45,056 gsecdump.exe', delay: 30 },
+      { text: '05/12/2008  10:14 AM             331,136 psexec.exe', delay: 30 },
+      { text: '05/12/2008  10:49 AM               3,842 dc01_dump.txt', delay: 30 },
+      { text: '               4 File(s)        474,242 bytes', delay: 50 },
       { text: '               0 Dir(s)   3,891,339,264 bytes free', delay: 50 },
       { text: '', delay: 800 },
+
+      // Phase 8: Cleanup and exit
       { text: 'C:\\WINDOWS\\system32>', delay: 50, noBreak: true },
       { text: 'exit', delay: 700, typed: true },
       { text: '', delay: 200 },
-      { text: 'Connection to 192.168.1.1 closed.', delay: 50 },
+
+      { text: 'cmd.exe exited on 192.168.1.10 with error code 0.', delay: 50 },
       { text: '', delay: 500 },
+
       { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
       { text: 'logoff', delay: 700, typed: true },
       { text: '', delay: 2500 }
@@ -480,79 +581,92 @@
 
     let cmdIndex = 0;
     let charIndex = 0;
-    let currentLine = null;
+
+    let sequenceStartMarker = null;
 
     function clearAndRestart() {
-      output.innerHTML = '';
+      // Remove everything before the last sequence start marker,
+      // keeping only the most recent complete run visible when scrolling up.
+      if (sequenceStartMarker && sequenceStartMarker.parentNode === output) {
+        // Remove all children before the marker
+        while (output.firstChild && output.firstChild !== sequenceStartMarker) {
+          output.removeChild(output.firstChild);
+        }
+      }
+
+      // Insert a visual separator and mark the start of this new sequence
+      const separator = document.createElement('div');
+      separator.className = 'line';
+      separator.textContent = '';
+      output.appendChild(separator);
+
+      sequenceStartMarker = document.createElement('div');
+      sequenceStartMarker.className = 'line';
+      output.appendChild(sequenceStartMarker);
+
       cmdIndex = 0;
       charIndex = 0;
-      setTimeout(typeCommand, 1000);
+      // Scroll to bottom for the fresh start
+      output.scrollTop = output.scrollHeight;
+      scheduledTimeout(typeCommand, 1000);
     }
 
     function typeCommand() {
       if (cmdIndex >= commands.length) {
-        setTimeout(clearAndRestart, 2000);
+        scheduledTimeout(clearAndRestart, 10000);
         return;
       }
 
+      // Only auto-scroll if the user is already near the bottom.
+      // This way, if they've scrolled up to read, we don't yank them away.
+      const isNearBottom = (output.scrollHeight - output.scrollTop - output.clientHeight) < 40;
+
       const cmd = commands[cmdIndex];
 
-      if (cmd.paste) {
-        // Type the command prefix slowly, then paste the hash portion instantly
-        const pasteAt = cmd.text.indexOf(' -hashes ') + ' -hashes '.length;
-        const prefix = cmd.text.substring(0, pasteAt);
-        const pasted = cmd.text.substring(pasteAt);
-        if (charIndex < prefix.length) {
-          if (charIndex === 0) output.lastChild.textContent += cmd.text[0];
-          else output.lastChild.textContent += prefix[charIndex];
-          charIndex++;
-          setTimeout(typeCommand, 80 + Math.random() * 120);
-        } else if (charIndex === prefix.length) {
-          // Paste the hash in one shot
-          output.lastChild.textContent += pasted;
-          charIndex++;
-          setTimeout(typeCommand, 300);
-        } else {
-          const lineBreak = document.createElement('div');
-          lineBreak.className = 'line';
-          output.appendChild(lineBreak);
-          charIndex = 0;
-          cmdIndex++;
-          setTimeout(typeCommand, cmd.delay);
-        }
-      } else if (cmd.typed) {
+      // noBreak: print prompt on its own line, next command appends to it
+      if (cmd.noBreak) {
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.textContent = cmd.text;
+        output.appendChild(line);
+        if (isNearBottom) output.scrollTop = output.scrollHeight;
+        cmdIndex++;
+        scheduledTimeout(typeCommand, cmd.delay);
+        return;
+      }
+
+      if (cmd.typed) {
         if (charIndex === 0) {
-          currentLine = document.createElement('span');
-          currentLine.textContent = cmd.text.substring(0, 1);
-          output.lastChild.textContent += currentLine.textContent;
+          output.lastChild.textContent += cmd.text.substring(0, 1);
           charIndex = 1;
-          setTimeout(typeCommand, 80 + Math.random() * 120);
+          if (isNearBottom) output.scrollTop = output.scrollHeight;
+          scheduledTimeout(typeCommand, 80 + Math.random() * 120);
         } else if (charIndex < cmd.text.length) {
           output.lastChild.textContent += cmd.text[charIndex];
           charIndex++;
-          setTimeout(typeCommand, 80 + Math.random() * 120);
+          if (isNearBottom) output.scrollTop = output.scrollHeight;
+          scheduledTimeout(typeCommand, 80 + Math.random() * 120);
         } else {
           const lineBreak = document.createElement('div');
           lineBreak.className = 'line';
           output.appendChild(lineBreak);
           charIndex = 0;
           cmdIndex++;
-          setTimeout(typeCommand, cmd.delay);
+          if (isNearBottom) output.scrollTop = output.scrollHeight;
+          scheduledTimeout(typeCommand, cmd.delay);
         }
       } else {
         const line = document.createElement('div');
         line.className = 'line';
         line.textContent = cmd.text;
         output.appendChild(line);
-        output.scrollTop = output.scrollHeight;
+        if (isNearBottom) output.scrollTop = output.scrollHeight;
         cmdIndex++;
-        setTimeout(typeCommand, cmd.delay);
+        scheduledTimeout(typeCommand, cmd.delay);
       }
     }
 
-    setTimeout(typeCommand, 500);
-
-
+    scheduledTimeout(typeCommand, 500);
   </script>
 </body>
 </html>
