@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW HOA Portal — WUCIOA-Ready Websites for Washington HOAs</title>
+<meta name="description" content="Affordable websites and WUCIOA compliance guidance for Washington HOAs. The law changed. Your community needs a website. We make it simple.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --forest: #1a3a2a;
+  --forest-deep: #0f2419;
+  --sage: #4a7c5e;
+  --sage-light: #6b9e7e;
+  --moss: #8db48e;
+  --slate: #3d5a6e;
+  --slate-light: #5a7d91;
+  --sky: #7eaec4;
+  --cream: #f7f4ef;
+  --warm-white: #fdfcf9;
+  --sand: #e8e0d4;
+  --bark: #8c7a6b;
+  --ember: #c4603a;
+  --ember-dark: #a84e2e;
+  --charcoal: #2a2a2a;
+  --text: #3a3530;
+  --text-light: #6b6560;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--warm-white);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── UTILITY ── */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(253, 252, 249, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
+.nav-inner {
+  max-width: 1140px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--forest);
+}
+.nav-logo svg { flex-shrink: 0; }
+.nav-logo-text { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.01em; }
+.nav-logo-text span { color: var(--sage); }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--text-light); font-size: 0.9rem;
+  font-weight: 500; transition: color 0.2s; letter-spacing: 0.01em;
+}
+.nav-links a:hover { color: var(--forest); }
+.nav-cta {
+  background: var(--forest); color: var(--cream) !important;
+  padding: 10px 22px; border-radius: 8px; font-weight: 600 !important;
+  transition: background 0.2s, transform 0.15s !important;
+}
+.nav-cta:hover { background: var(--forest-deep); transform: translateY(-1px); }
+
+.mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-toggle span { display: block; width: 22px; height: 2px; background: var(--forest); margin: 5px 0; border-radius: 2px; transition: 0.3s; }
+
+/* ── HERO ── */
+.hero {
+  padding: 160px 0 100px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(168deg, var(--warm-white) 0%, #f0ede6 40%, #e4ece6 100%);
+}
+.hero::before {
+  content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(74,124,94,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -30%; left: -10%; width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(61,90,110,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero .container { position: relative; z-index: 1; }
+.hero-grid { display: grid; grid-template-columns: 1fr 420px; gap: 64px; align-items: center; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(196, 96, 58, 0.1); color: var(--ember);
+  padding: 6px 16px; border-radius: 100px; font-size: 0.82rem;
+  font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.6s ease both;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px; background: var(--ember);
+  border-radius: 50%; animation: pulse 2s ease infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.hero h1 {
+  font-family: var(--font-display); font-size: 3.5rem; line-height: 1.12;
+  color: var(--forest-deep); letter-spacing: -0.02em; margin-bottom: 24px;
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+.hero h1 em { font-style: italic; color: var(--sage); }
+.hero-sub {
+  font-size: 1.15rem; color: var(--text-light); max-width: 520px;
+  line-height: 1.7; margin-bottom: 36px;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+.hero-actions {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ember); color: white; padding: 15px 30px;
+  border-radius: 10px; text-decoration: none; font-weight: 600;
+  font-size: 1rem; transition: all 0.2s; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(196, 96, 58, 0.25);
+}
+.btn-primary:hover { background: var(--ember-dark); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196, 96, 58, 0.3); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--forest); padding: 15px 30px;
+  border-radius: 10px; text-decoration: none; font-weight: 600;
+  font-size: 1rem; border: 2px solid rgba(26, 58, 42, 0.2);
+  transition: all 0.2s; cursor: pointer;
+}
+.btn-secondary:hover { border-color: var(--forest); background: rgba(26,58,42,0.04); }
+
+/* Hero card */
+.hero-card {
+  background: white; border-radius: 20px; padding: 36px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  border: 1px solid rgba(26,58,42,0.06);
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+.hero-card-label {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--bark); font-weight: 700; margin-bottom: 20px;
+}
+.countdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.countdown-item { text-align: center; }
+.countdown-num {
+  font-family: var(--font-display); font-size: 2.4rem; color: var(--forest);
+  line-height: 1;
+}
+.countdown-label { font-size: 0.75rem; color: var(--text-light); margin-top: 4px; font-weight: 500; }
+.hero-card-divider { border: none; border-top: 1px solid var(--sand); margin: 20px 0; }
+.hero-card-stat { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.hero-card-stat:last-child { margin-bottom: 0; }
+.stat-icon {
+  width: 32px; height: 32px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  font-size: 0.85rem;
+}
+.stat-icon.green { background: rgba(74,124,94,0.12); color: var(--sage); }
+.stat-icon.blue { background: rgba(61,90,110,0.12); color: var(--slate); }
+.stat-icon.amber { background: rgba(196,96,58,0.12); color: var(--ember); }
+.stat-text { font-size: 0.88rem; line-height: 1.5; color: var(--text); }
+.stat-text strong { color: var(--forest); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── URGENCY BAR ── */
+.urgency-bar {
+  background: var(--forest-deep);
+  padding: 20px 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  overflow: hidden;
+}
+.urgency-inner {
+  display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+  align-items: center;
+}
+.urgency-item { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.urgency-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.urgency-dot.red { background: #e05a3a; }
+.urgency-dot.yellow { background: #d4a843; }
+.urgency-dot.green { background: var(--moss); }
+
+/* ── PROBLEM SECTION ── */
+.problem {
+  padding: 100px 0;
+  background: var(--warm-white);
+}
+.section-eyebrow {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--sage); font-weight: 700; margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: 2.5rem; color: var(--forest-deep);
+  line-height: 1.2; margin-bottom: 20px; letter-spacing: -0.01em;
+}
+.section-subtitle {
+  font-size: 1.05rem; color: var(--text-light); max-width: 640px;
+  line-height: 1.7; margin-bottom: 56px;
+}
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.problem-card {
+  background: white; border-radius: 16px; padding: 32px;
+  border: 1px solid rgba(26,58,42,0.06);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.problem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.problem-card-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; font-size: 1.3rem;
+}
+.problem-card-icon.red { background: rgba(196,96,58,0.1); }
+.problem-card-icon.amber { background: rgba(212,168,67,0.12); }
+.problem-card-icon.slate { background: rgba(61,90,110,0.1); }
+.problem-card h3 {
+  font-family: var(--font-display); font-size: 1.25rem;
+  color: var(--forest); margin-bottom: 10px;
+}
+.problem-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.65; }
+
+/* ── SERVICES ── */
+.services {
+  padding: 100px 0;
+  background: linear-gradient(180deg, #f0ede6 0%, var(--warm-white) 100%);
+}
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.service-card {
+  background: white; border-radius: 16px; padding: 40px;
+  border: 1px solid rgba(26,58,42,0.06);
+  position: relative; overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.service-card.featured {
+  grid-column: span 2;
+  background: var(--forest-deep);
+  color: white;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+}
+.service-card.featured .section-eyebrow { color: var(--moss); }
+.service-card.featured h3 { color: white; }
+.service-card.featured p { color: rgba(255,255,255,0.75); }
+.service-tag {
+  display: inline-block; font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.1em; font-weight: 700; color: var(--sage);
+  margin-bottom: 16px;
+}
+.service-card h3 {
+  font-family: var(--font-display); font-size: 1.4rem;
+  color: var(--forest); margin-bottom: 12px; line-height: 1.3;
+}
+.service-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.65; margin-bottom: 20px; }
+.service-list { list-style: none; }
+.service-list li {
+  padding: 8px 0; font-size: 0.9rem; color: var(--text);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.service-list li::before {
+  content: '✓'; color: var(--sage); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.service-card.featured .service-list li { color: rgba(255,255,255,0.85); }
+.service-card.featured .service-list li::before { color: var(--moss); }
+
+.featured-visual {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.mock-browser {
+  background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.mock-browser-bar {
+  display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+  background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+.mock-dot.r { background: #ff6058; }
+.mock-dot.y { background: #ffbd2e; }
+.mock-dot.g { background: #27ca40; }
+.mock-url {
+  margin-left: 12px; background: rgba(255,255,255,0.08);
+  border-radius: 6px; padding: 5px 14px; font-size: 0.75rem;
+  color: rgba(255,255,255,0.5); font-family: monospace;
+}
+.mock-content { padding: 24px; }
+.mock-line { height: 8px; border-radius: 4px; margin-bottom: 10px; background: rgba(255,255,255,0.06); }
+.mock-line.short { width: 60%; }
+.mock-line.med { width: 80%; }
+.mock-line.accent { background: rgba(141,180,142,0.2); width: 45%; }
+.mock-block { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.mock-square { height: 48px; border-radius: 8px; background: rgba(255,255,255,0.05); }
+
+/* ── PRICING ── */
+.pricing {
+  padding: 100px 0;
+  background: var(--warm-white);
+}
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.price-card {
+  background: white; border-radius: 16px; padding: 40px 32px;
+  border: 1px solid rgba(26,58,42,0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex; flex-direction: column;
+}
+.price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.price-card.popular {
+  border: 2px solid var(--sage);
+  position: relative;
+}
+.popular-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--sage); color: white; padding: 4px 18px;
+  border-radius: 100px; font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
+}
+.price-tier {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--sage); margin-bottom: 8px;
+}
+.price-name {
+  font-family: var(--font-display); font-size: 1.5rem;
+  color: var(--forest); margin-bottom: 8px;
+}
+.price-desc { font-size: 0.88rem; color: var(--text-light); margin-bottom: 24px; line-height: 1.6; }
+.price-amount {
+  font-family: var(--font-display); font-size: 2.8rem;
+  color: var(--forest-deep); line-height: 1; margin-bottom: 4px;
+}
+.price-amount span { font-size: 1rem; color: var(--text-light); font-family: var(--font-body); }
+.price-period { font-size: 0.82rem; color: var(--text-light); margin-bottom: 28px; }
+.price-features { list-style: none; margin-bottom: 32px; flex-grow: 1; }
+.price-features li {
+  padding: 7px 0; font-size: 0.88rem; color: var(--text);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.price-features li::before { content: '✓'; color: var(--sage); font-weight: 700; flex-shrink: 0; }
+.price-btn {
+  display: block; text-align: center; padding: 14px;
+  border-radius: 10px; font-weight: 600; text-decoration: none;
+  font-size: 0.95rem; transition: all 0.2s;
+}
+.price-btn.primary { background: var(--forest); color: white; }
+.price-btn.primary:hover { background: var(--forest-deep); }
+.price-btn.outline { border: 2px solid rgba(26,58,42,0.15); color: var(--forest); }
+.price-btn.outline:hover { border-color: var(--forest); background: rgba(26,58,42,0.03); }
+
+/* ── WUCIOA SECTION ── */
+.wucioa {
+  padding: 100px 0;
+  background: var(--forest-deep);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.wucioa::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 50%; height: 100%;
+  background: radial-gradient(ellipse at top right, rgba(74,124,94,0.15), transparent 70%);
+}
+.wucioa .section-eyebrow { color: var(--moss); }
+.wucioa .section-title { color: white; }
+.wucioa .section-subtitle { color: rgba(255,255,255,0.65); }
+.wucioa-content { position: relative; z-index: 1; }
+.timeline { max-width: 720px; }
+.timeline-item {
+  display: flex; gap: 24px; padding-bottom: 36px;
+  position: relative;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-marker {
+  display: flex; flex-direction: column; align-items: center; flex-shrink: 0;
+}
+.timeline-dot {
+  width: 14px; height: 14px; border-radius: 50%; border: 3px solid;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.timeline-dot.active { border-color: var(--ember); background: var(--ember); }
+.timeline-dot.upcoming { border-color: var(--moss); background: transparent; }
+.timeline-dot.future { border-color: rgba(255,255,255,0.25); background: transparent; }
+.timeline-line {
+  width: 2px; flex-grow: 1; margin-top: 8px;
+  background: rgba(255,255,255,0.1);
+}
+.timeline-content { padding-top: 0; }
+.timeline-date {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; margin-bottom: 6px;
+}
+.timeline-date.active { color: var(--ember); }
+.timeline-date.upcoming { color: var(--moss); }
+.timeline-date.future { color: rgba(255,255,255,0.4); }
+.timeline-title {
+  font-family: var(--font-display); font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+.timeline-desc { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* ── DISCLAIMER ── */
+.disclaimer-box {
+  margin-top: 48px; padding: 24px 28px;
+  background: rgba(255,255,255,0.06); border-radius: 12px;
+  border-left: 3px solid var(--moss);
+  max-width: 720px;
+}
+.disclaimer-box p {
+  font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.65;
+}
+.disclaimer-box strong { color: rgba(255,255,255,0.8); }
+
+/* ── CTA / CONTACT ── */
+.cta {
+  padding: 100px 0;
+  background: linear-gradient(168deg, #f0ede6 0%, var(--warm-white) 100%);
+  text-align: center;
+}
+.cta .section-title { max-width: 600px; margin: 0 auto 16px; }
+.cta .section-subtitle { max-width: 520px; margin: 0 auto 40px; }
+.cta-form {
+  max-width: 560px; margin: 0 auto;
+  background: white; border-radius: 20px; padding: 40px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.05);
+  border: 1px solid rgba(26,58,42,0.06);
+  text-align: left;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group:last-of-type { margin-bottom: 24px; }
+.form-group label {
+  display: block; font-size: 0.82rem; font-weight: 600;
+  color: var(--text); margin-bottom: 6px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 12px 16px; border: 1.5px solid var(--sand);
+  border-radius: 10px; font-family: var(--font-body); font-size: 0.92rem;
+  color: var(--text); background: var(--warm-white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,94,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-submit {
+  width: 100%; padding: 15px; border: none; border-radius: 10px;
+  background: var(--ember); color: white; font-size: 1rem;
+  font-weight: 600; font-family: var(--font-body); cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 16px rgba(196, 96, 58, 0.2);
+}
+.form-submit:hover { background: var(--ember-dark); transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--forest-deep); color: rgba(255,255,255,0.5);
+  padding: 48px 0 32px;
+}
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px;
+}
+.footer-brand { max-width: 320px; }
+.footer-brand .nav-logo { margin-bottom: 12px; }
+.footer-brand .nav-logo-text { color: white; }
+.footer-brand p { font-size: 0.85rem; line-height: 1.6; }
+.footer-links { display: flex; gap: 48px; }
+.footer-col h4 {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3); font-weight: 700; margin-bottom: 16px;
+}
+.footer-col a {
+  display: block; font-size: 0.88rem; color: rgba(255,255,255,0.55);
+  text-decoration: none; padding: 4px 0; transition: color 0.2s;
+}
+.footer-col a:hover { color: white; }
+.footer-bottom {
+  margin-top: 40px; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+  font-size: 0.8rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 2.5rem; }
+  .hero-card { max-width: 420px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .footer-inner { flex-direction: column; }
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+  .form-row { grid-template-columns: 1fr; }
+  .urgency-inner { flex-direction: column; gap: 12px; }
+  .section-title { font-size: 2rem; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 120px 0 60px; }
+  .hero h1 { font-size: 2rem; }
+  .cta-form { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#1a3a2a"/>
+        <path d="M10 24V14l8-5 8 5v10" stroke="#8db48e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 24v-6h6v6" stroke="#8db48e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="18" cy="14" r="1.5" fill="#8db48e"/>
+      </svg>
+      <span class="nav-logo-text">NW <span>HOA</span> Portal</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#wucioa">WUCIOA</a></li>
+      <li><a href="#contact" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">New law in effect — action required</div>
+        <h1>Washington law changed. Your HOA needs <em>a&nbsp;website.</em></h1>
+        <p class="hero-sub">WUCIOA requires every Washington HOA to provide centralized access to governing documents. We build affordable, compliant websites for your community — and help you understand where you stand with the new law.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Get a Free Assessment →</a>
+          <a href="#wucioa" class="btn-secondary">Learn About WUCIOA</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">⏱ Countdown to Full Applicability</div>
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <div class="countdown-num" id="cd-days">--</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cd-hours">--</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cd-mins">--</div>
+            <div class="countdown-label">Minutes</div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-light); text-align:center; margin-bottom:4px;">until January 1, 2028</p>
+        <hr class="hero-card-divider">
+        <div class="hero-card-stat">
+          <div class="stat-icon amber">⚠</div>
+          <div class="stat-text"><strong>Old statutes repealed</strong> — RCW 64.32, 64.34, and 64.38 fully replaced. No grace period.</div>
+        </div>
+        <div class="hero-card-stat">
+          <div class="stat-icon green">📋</div>
+          <div class="stat-text"><strong>120 sections, 67,000+ words</strong> — the most comprehensive HOA statute in the U.S.</div>
+        </div>
+        <div class="hero-card-stat">
+          <div class="stat-icon blue">⚖</div>
+          <div class="stat-text"><strong>Non-compliant docs become void</strong> — conflicting provisions are automatically invalid.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── URGENCY BAR ── -->
+<div class="urgency-bar">
+  <div class="urgency-inner">
+    <div class="urgency-item">
+      <span class="urgency-dot red"></span>
+      Jan 1, 2026 — Open meetings, voting rules, EV/heat pump rights now in effect
+    </div>
+    <div class="urgency-item">
+      <span class="urgency-dot yellow"></span>
+      Now–2027 — Restate governing documents (takes 6–18 months)
+    </div>
+    <div class="urgency-item">
+      <span class="urgency-dot green"></span>
+      Jan 1, 2028 — Full WUCIOA applicability, old statutes repealed
+    </div>
+  </div>
+</div>
+
+<!-- ── PROBLEM ── -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-eyebrow">The Challenge</div>
+    <h2 class="section-title">Most HOAs aren't ready for WUCIOA</h2>
+    <p class="section-subtitle">Washington's new HOA law is the most sweeping in the nation — and the compliance burden falls squarely on volunteer board members who are already stretched thin.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-card-icon red">📄</div>
+        <h3>No central document hub</h3>
+        <p>WUCIOA requires associations to maintain extensive records and respond to requests within 10 business days. Without a website, boards are buried in one-off emails and paper requests.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon amber">⏰</div>
+        <h3>The clock is ticking</h3>
+        <p>Governing documents that conflict with WUCIOA become automatically void on January 1, 2028. The restatement process takes 6–18 months. Communities that wait until 2027 risk missing the deadline.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon slate">💰</div>
+        <h3>Litigation exposure</h3>
+        <p>There's no state enforcement agency — it's all private lawsuits with bilateral fee-shifting. Non-compliant actions can be challenged and invalidated within 90 days. The cost of defense far exceeds the cost of compliance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-eyebrow">What We Do</div>
+    <h2 class="section-title">Simple solutions for complex requirements</h2>
+    <p class="section-subtitle">We handle the technology and help you understand the law — so your board can focus on your community.</p>
+    <div class="services-grid">
+      <div class="service-card featured">
+        <div>
+          <span class="service-tag">Core Service</span>
+          <h3>HOA Community Website</h3>
+          <p>A clean, professional website built specifically for your HOA — designed around WUCIOA's document accessibility requirements.</p>
+          <ul class="service-list">
+            <li>Secure document library for governing docs, budgets, minutes, and reserve studies</li>
+            <li>Meeting notice board with agenda posting</li>
+            <li>Owner communication portal</li>
+            <li>Mobile-friendly, easy for board members to update</li>
+            <li>Hosted and maintained — we handle the tech</li>
+          </ul>
+        </div>
+        <div class="featured-visual">
+          <div class="mock-browser">
+            <div class="mock-browser-bar">
+              <div class="mock-dot r"></div>
+              <div class="mock-dot y"></div>
+              <div class="mock-dot g"></div>
+              <div class="mock-url">yourhoa.nwhoaportal.com</div>
+            </div>
+            <div class="mock-content">
+              <div class="mock-line short"></div>
+              <div class="mock-line med"></div>
+              <div class="mock-line accent"></div>
+              <div class="mock-line" style="width:70%"></div>
+              <div class="mock-block">
+                <div class="mock-square"></div>
+                <div class="mock-square"></div>
+                <div class="mock-square"></div>
+                <div class="mock-square"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">Compliance Guidance</span>
+        <h3>WUCIOA Readiness Opinion</h3>
+        <p>We review your governing documents and current practices against WUCIOA requirements and give you a clear, plain-English opinion on where you stand.</p>
+        <ul class="service-list">
+          <li>Document review against key WUCIOA sections</li>
+          <li>Gap identification with priority ranking</li>
+          <li>Plain-English readiness report</li>
+          <li>Recommended next steps</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">Ongoing Support</span>
+        <h3>Portal Management</h3>
+        <p>Don't have time to keep your site updated? We'll manage document uploads, meeting notices, and content updates so your site stays current and compliant.</p>
+        <ul class="service-list">
+          <li>Monthly document updates</li>
+          <li>Meeting notice posting</li>
+          <li>Content updates as needed</li>
+          <li>Annual WUCIOA readiness check-in</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Affordable for every community</h2>
+    <p class="section-subtitle">No long-term contracts. No hidden fees. Built for HOAs that need to get compliant without breaking the budget.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-name">Essentials</div>
+        <div class="price-desc">A clean community website with document hosting — the foundation of WUCIOA compliance.</div>
+        <div class="price-amount">$49<span>/mo</span></div>
+        <div class="price-period">+ $299 one-time setup</div>
+        <ul class="price-features">
+          <li>Custom HOA website</li>
+          <li>Document library (up to 50 docs)</li>
+          <li>Meeting notice board</li>
+          <li>Mobile responsive</li>
+          <li>SSL security included</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#contact" class="price-btn outline">Get Started</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="price-tier">Professional</div>
+        <div class="price-name">Compliance Ready</div>
+        <div class="price-desc">Everything in Essentials plus a WUCIOA readiness opinion and owner portal.</div>
+        <div class="price-amount">$89<span>/mo</span></div>
+        <div class="price-period">+ $499 one-time setup</div>
+        <ul class="price-features">
+          <li>Everything in Essentials</li>
+          <li>WUCIOA readiness opinion</li>
+          <li>Owner login portal</li>
+          <li>Unlimited document storage</li>
+          <li>Board member training resources</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#contact" class="price-btn primary">Get Started</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Full Service</div>
+        <div class="price-name">Managed Portal</div>
+        <div class="price-desc">We handle everything — site updates, document management, and ongoing compliance check-ins.</div>
+        <div class="price-amount">$149<span>/mo</span></div>
+        <div class="price-period">+ $499 one-time setup</div>
+        <ul class="price-features">
+          <li>Everything in Compliance Ready</li>
+          <li>Monthly content management</li>
+          <li>Meeting notice posting</li>
+          <li>Annual WUCIOA readiness review</li>
+          <li>Dedicated account manager</li>
+          <li>Phone support</li>
+        </ul>
+        <a href="#contact" class="price-btn outline">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WUCIOA TIMELINE ── -->
+<section class="wucioa" id="wucioa">
+  <div class="container wucioa-content">
+    <div class="section-eyebrow">Understanding WUCIOA</div>
+    <h2 class="section-title">The timeline every Washington HOA needs to know</h2>
+    <p class="section-subtitle">WUCIOA (RCW 64.90) is replacing all prior HOA statutes in Washington. Here's what's already happened and what's coming.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date active">July 1, 2018</div>
+          <div class="timeline-title">WUCIOA enacted</div>
+          <div class="timeline-desc">Applies in full to every community created on or after this date. Budget ratification procedures apply to all associations.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date active">June 2024</div>
+          <div class="timeline-title">ESSB 5796 — the major overhaul</div>
+          <div class="timeline-desc">Washington becomes the first state to adopt the 2021 UCIOA framework. The statute grows to 67,000+ words. Phases in full applicability for all communities by 2028.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date active">January 1, 2026 — Now in effect</div>
+          <div class="timeline-title">Cross-apply provisions kick in</div>
+          <div class="timeline-desc">Open meetings, owner comment periods, voting rules, assessments, reserve studies, EV charger rights, heat pump rights, and updated foreclosure procedures now apply to all Washington HOAs.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot upcoming"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date upcoming">Now through 2027</div>
+          <div class="timeline-title">The compliance window</div>
+          <div class="timeline-desc">Associations should be restating governing documents, updating insurance, obtaining reserve studies, and training boards. This process takes 6–18 months — don't wait.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot future"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date future">January 1, 2028</div>
+          <div class="timeline-title">Full applicability — old laws repealed</div>
+          <div class="timeline-desc">RCW 64.32, 64.34, 64.38, and 58.19 are repealed. Every residential community falls under WUCIOA. Conflicting governing documents become automatically void. No grace period.</div>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer-box">
+      <p><strong>Important note:</strong> NW HOA Portal provides opinions and guidance on WUCIOA readiness — we are not attorneys and do not provide legal advice. Our assessments are informational only. For legal counsel on governing document amendments, compliance obligations, or dispute resolution, we recommend consulting a qualified community association attorney.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT / CTA ── -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="section-eyebrow">Get Started</div>
+    <h2 class="section-title">Let's get your community WUCIOA-ready</h2>
+    <p class="section-subtitle">Tell us about your HOA and we'll get back to you within one business day with a free initial assessment.</p>
+    <div class="cta-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="jane@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="hoa">HOA / Community Name</label>
+        <input type="text" id="hoa" placeholder="Pinecrest Homeowners Association">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="units">Number of Units</label>
+          <select id="units">
+            <option value="">Select range</option>
+            <option>Under 25</option>
+            <option>25–50</option>
+            <option>51–100</option>
+            <option>101–250</option>
+            <option>250+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="interest">Primary Interest</label>
+          <select id="interest">
+            <option value="">Select one</option>
+            <option>HOA Website</option>
+            <option>WUCIOA Readiness Opinion</option>
+            <option>Website + Compliance Package</option>
+            <option>Managed Portal</option>
+            <option>Not sure yet — just exploring</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="message">Anything else we should know?</label>
+        <textarea id="message" placeholder="Tell us about your community, current website situation, or any specific WUCIOA concerns..."></textarea>
+      </div>
+      <button class="form-submit" type="button">Request Free Assessment →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.1)"/>
+            <path d="M10 24V14l8-5 8 5v10" stroke="#8db48e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 24v-6h6v6" stroke="#8db48e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="18" cy="14" r="1.5" fill="#8db48e"/>
+          </svg>
+          <span class="nav-logo-text">NW <span style="color:var(--moss)">HOA</span> Portal</span>
+        </a>
+        <p>Affordable websites and WUCIOA compliance guidance for Washington community associations.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="#services">HOA Websites</a>
+          <a href="#services">WUCIOA Readiness</a>
+          <a href="#services">Managed Portals</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="#wucioa">WUCIOA Timeline</a>
+          <a href="#">Compliance Checklist</a>
+          <a href="#">Blog</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NWHOAPORTAL LLC. All rights reserved.</span>
+      <span>Serving Washington State HOAs</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Countdown to Jan 1, 2028
+function updateCountdown() {
+  const target = new Date('2028-01-01T00:00:00-08:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) return;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = hours;
+  document.getElementById('cd-mins').textContent = mins;
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelector('.nav-links')?.classList.remove('show');
+  });
+});
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW HOA Portal — WUCIOA-Ready Websites for Washington HOAs</title>
+<meta name="description" content="Affordable websites and WUCIOA compliance guidance for Washington HOAs. The law changed. Your community needs a website. We make it simple.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --forest: #1a3a2a;
+  --forest-deep: #0f2419;
+  --sage: #4a7c5e;
+  --sage-light: #6b9e7e;
+  --moss: #8db48e;
+  --slate: #3d5a6e;
+  --slate-light: #5a7d91;
+  --sky: #7eaec4;
+  --cream: #f7f4ef;
+  --warm-white: #fdfcf9;
+  --sand: #e8e0d4;
+  --bark: #8c7a6b;
+  --ember: #c4603a;
+  --ember-dark: #a84e2e;
+  --charcoal: #2a2a2a;
+  --text: #3a3530;
+  --text-light: #6b6560;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--warm-white);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── UTILITY ── */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(253, 252, 249, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
+.nav-inner {
+  max-width: 1140px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--forest);
+}
+.nav-logo svg { flex-shrink: 0; }
+.nav-logo-text { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.01em; }
+.nav-logo-text span { color: var(--sage); }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--text-light); font-size: 0.9rem;
+  font-weight: 500; transition: color 0.2s; letter-spacing: 0.01em;
+}
+.nav-links a:hover { color: var(--forest); }
+.nav-cta {
+  background: var(--forest); color: var(--cream) !important;
+  padding: 10px 22px; border-radius: 8px; font-weight: 600 !important;
+  transition: background 0.2s, transform 0.15s !important;
+}
+.nav-cta:hover { background: var(--forest-deep); transform: translateY(-1px); }
+
+.mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-toggle span { display: block; width: 22px; height: 2px; background: var(--forest); margin: 5px 0; border-radius: 2px; transition: 0.3s; }
+
+/* ── HERO ── */
+.hero {
+  padding: 160px 0 100px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(168deg, var(--warm-white) 0%, #f0ede6 40%, #e4ece6 100%);
+}
+.hero::before {
+  content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(74,124,94,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -30%; left: -10%; width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(61,90,110,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero .container { position: relative; z-index: 1; }
+.hero-grid { display: grid; grid-template-columns: 1fr 420px; gap: 64px; align-items: center; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(196, 96, 58, 0.1); color: var(--ember);
+  padding: 6px 16px; border-radius: 100px; font-size: 0.82rem;
+  font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.6s ease both;
+}
+.hero-badge::before {
+  content: ''; width: 7px; height: 7px; background: var(--ember);
+  border-radius: 50%; animation: pulse 2s ease infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.hero h1 {
+  font-family: var(--font-display); font-size: 3.5rem; line-height: 1.12;
+  color: var(--forest-deep); letter-spacing: -0.02em; margin-bottom: 24px;
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+.hero h1 em { font-style: italic; color: var(--sage); }
+.hero-sub {
+  font-size: 1.15rem; color: var(--text-light); max-width: 520px;
+  line-height: 1.7; margin-bottom: 36px;
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+.hero-actions {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ember); color: white; padding: 15px 30px;
+  border-radius: 10px; text-decoration: none; font-weight: 600;
+  font-size: 1rem; transition: all 0.2s; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(196, 96, 58, 0.25);
+}
+.btn-primary:hover { background: var(--ember-dark); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196, 96, 58, 0.3); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--forest); padding: 15px 30px;
+  border-radius: 10px; text-decoration: none; font-weight: 600;
+  font-size: 1rem; border: 2px solid rgba(26, 58, 42, 0.2);
+  transition: all 0.2s; cursor: pointer;
+}
+.btn-secondary:hover { border-color: var(--forest); background: rgba(26,58,42,0.04); }
+
+/* Hero card */
+.hero-card {
+  background: white; border-radius: 20px; padding: 36px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  border: 1px solid rgba(26,58,42,0.06);
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+.hero-card-label {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--bark); font-weight: 700; margin-bottom: 20px;
+}
+.countdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.countdown-item { text-align: center; }
+.countdown-num {
+  font-family: var(--font-display); font-size: 2.4rem; color: var(--forest);
+  line-height: 1;
+}
+.countdown-label { font-size: 0.75rem; color: var(--text-light); margin-top: 4px; font-weight: 500; }
+.hero-card-divider { border: none; border-top: 1px solid var(--sand); margin: 20px 0; }
+.hero-card-stat { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.hero-card-stat:last-child { margin-bottom: 0; }
+.stat-icon {
+  width: 32px; height: 32px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  font-size: 0.85rem;
+}
+.stat-icon.green { background: rgba(74,124,94,0.12); color: var(--sage); }
+.stat-icon.blue { background: rgba(61,90,110,0.12); color: var(--slate); }
+.stat-icon.amber { background: rgba(196,96,58,0.12); color: var(--ember); }
+.stat-text { font-size: 0.88rem; line-height: 1.5; color: var(--text); }
+.stat-text strong { color: var(--forest); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── URGENCY BAR ── */
+.urgency-bar {
+  background: var(--forest-deep);
+  padding: 20px 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  overflow: hidden;
+}
+.urgency-inner {
+  display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+  align-items: center;
+}
+.urgency-item { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.urgency-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.urgency-dot.red { background: #e05a3a; }
+.urgency-dot.yellow { background: #d4a843; }
+.urgency-dot.green { background: var(--moss); }
+
+/* ── PROBLEM SECTION ── */
+.problem {
+  padding: 100px 0;
+  background: var(--warm-white);
+}
+.section-eyebrow {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--sage); font-weight: 700; margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: 2.5rem; color: var(--forest-deep);
+  line-height: 1.2; margin-bottom: 20px; letter-spacing: -0.01em;
+}
+.section-subtitle {
+  font-size: 1.05rem; color: var(--text-light); max-width: 640px;
+  line-height: 1.7; margin-bottom: 56px;
+}
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.problem-card {
+  background: white; border-radius: 16px; padding: 32px;
+  border: 1px solid rgba(26,58,42,0.06);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.problem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.problem-card-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; font-size: 1.3rem;
+}
+.problem-card-icon.red { background: rgba(196,96,58,0.1); }
+.problem-card-icon.amber { background: rgba(212,168,67,0.12); }
+.problem-card-icon.slate { background: rgba(61,90,110,0.1); }
+.problem-card h3 {
+  font-family: var(--font-display); font-size: 1.25rem;
+  color: var(--forest); margin-bottom: 10px;
+}
+.problem-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.65; }
+
+/* ── SERVICES ── */
+.services {
+  padding: 100px 0;
+  background: linear-gradient(180deg, #f0ede6 0%, var(--warm-white) 100%);
+}
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.service-card {
+  background: white; border-radius: 16px; padding: 40px;
+  border: 1px solid rgba(26,58,42,0.06);
+  position: relative; overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.service-card.featured {
+  grid-column: span 2;
+  background: var(--forest-deep);
+  color: white;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+}
+.service-card.featured .section-eyebrow { color: var(--moss); }
+.service-card.featured h3 { color: white; }
+.service-card.featured p { color: rgba(255,255,255,0.75); }
+.service-tag {
+  display: inline-block; font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.1em; font-weight: 700; color: var(--sage);
+  margin-bottom: 16px;
+}
+.service-card h3 {
+  font-family: var(--font-display); font-size: 1.4rem;
+  color: var(--forest); margin-bottom: 12px; line-height: 1.3;
+}
+.service-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.65; margin-bottom: 20px; }
+.service-list { list-style: none; }
+.service-list li {
+  padding: 8px 0; font-size: 0.9rem; color: var(--text);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.service-list li::before {
+  content: '✓'; color: var(--sage); font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.service-card.featured .service-list li { color: rgba(255,255,255,0.85); }
+.service-card.featured .service-list li::before { color: var(--moss); }
+
+.featured-visual {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.mock-browser {
+  background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.mock-browser-bar {
+  display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+  background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+.mock-dot.r { background: #ff6058; }
+.mock-dot.y { background: #ffbd2e; }
+.mock-dot.g { background: #27ca40; }
+.mock-url {
+  margin-left: 12px; background: rgba(255,255,255,0.08);
+  border-radius: 6px; padding: 5px 14px; font-size: 0.75rem;
+  color: rgba(255,255,255,0.5); font-family: monospace;
+}
+.mock-content { padding: 24px; }
+.mock-line { height: 8px; border-radius: 4px; margin-bottom: 10px; background: rgba(255,255,255,0.06); }
+.mock-line.short { width: 60%; }
+.mock-line.med { width: 80%; }
+.mock-line.accent { background: rgba(141,180,142,0.2); width: 45%; }
+.mock-block { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.mock-square { height: 48px; border-radius: 8px; background: rgba(255,255,255,0.05); }
+
+/* ── PRICING ── */
+.pricing {
+  padding: 100px 0;
+  background: var(--warm-white);
+}
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.price-card {
+  background: white; border-radius: 16px; padding: 40px 32px;
+  border: 1px solid rgba(26,58,42,0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex; flex-direction: column;
+}
+.price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.price-card.popular {
+  border: 2px solid var(--sage);
+  position: relative;
+}
+.popular-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--sage); color: white; padding: 4px 18px;
+  border-radius: 100px; font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
+}
+.price-tier {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--sage); margin-bottom: 8px;
+}
+.price-name {
+  font-family: var(--font-display); font-size: 1.5rem;
+  color: var(--forest); margin-bottom: 8px;
+}
+.price-desc { font-size: 0.88rem; color: var(--text-light); margin-bottom: 24px; line-height: 1.6; }
+.price-amount {
+  font-family: var(--font-display); font-size: 2.8rem;
+  color: var(--forest-deep); line-height: 1; margin-bottom: 4px;
+}
+.price-amount span { font-size: 1rem; color: var(--text-light); font-family: var(--font-body); }
+.price-period { font-size: 0.82rem; color: var(--text-light); margin-bottom: 28px; }
+.price-features { list-style: none; margin-bottom: 32px; flex-grow: 1; }
+.price-features li {
+  padding: 7px 0; font-size: 0.88rem; color: var(--text);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.price-features li::before { content: '✓'; color: var(--sage); font-weight: 700; flex-shrink: 0; }
+.price-btn {
+  display: block; text-align: center; padding: 14px;
+  border-radius: 10px; font-weight: 600; text-decoration: none;
+  font-size: 0.95rem; transition: all 0.2s;
+}
+.price-btn.primary { background: var(--forest); color: white; }
+.price-btn.primary:hover { background: var(--forest-deep); }
+.price-btn.outline { border: 2px solid rgba(26,58,42,0.15); color: var(--forest); }
+.price-btn.outline:hover { border-color: var(--forest); background: rgba(26,58,42,0.03); }
+
+/* ── WUCIOA SECTION ── */
+.wucioa {
+  padding: 100px 0;
+  background: var(--forest-deep);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.wucioa::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 50%; height: 100%;
+  background: radial-gradient(ellipse at top right, rgba(74,124,94,0.15), transparent 70%);
+}
+.wucioa .section-eyebrow { color: var(--moss); }
+.wucioa .section-title { color: white; }
+.wucioa .section-subtitle { color: rgba(255,255,255,0.65); }
+.wucioa-content { position: relative; z-index: 1; }
+.timeline { max-width: 720px; }
+.timeline-item {
+  display: flex; gap: 24px; padding-bottom: 36px;
+  position: relative;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-marker {
+  display: flex; flex-direction: column; align-items: center; flex-shrink: 0;
+}
+.timeline-dot {
+  width: 14px; height: 14px; border-radius: 50%; border: 3px solid;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.timeline-dot.active { border-color: var(--ember); background: var(--ember); }
+.timeline-dot.upcoming { border-color: var(--moss); background: transparent; }
+.timeline-dot.future { border-color: rgba(255,255,255,0.25); background: transparent; }
+.timeline-line {
+  width: 2px; flex-grow: 1; margin-top: 8px;
+  background: rgba(255,255,255,0.1);
+}
+.timeline-content { padding-top: 0; }
+.timeline-date {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; margin-bottom: 6px;
+}
+.timeline-date.active { color: var(--ember); }
+.timeline-date.upcoming { color: var(--moss); }
+.timeline-date.future { color: rgba(255,255,255,0.4); }
+.timeline-title {
+  font-family: var(--font-display); font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+.timeline-desc { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* ── DISCLAIMER ── */
+.disclaimer-box {
+  margin-top: 48px; padding: 24px 28px;
+  background: rgba(255,255,255,0.06); border-radius: 12px;
+  border-left: 3px solid var(--moss);
+  max-width: 720px;
+}
+.disclaimer-box p {
+  font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.65;
+}
+.disclaimer-box strong { color: rgba(255,255,255,0.8); }
+
+/* ── CTA / CONTACT ── */
+.cta {
+  padding: 100px 0;
+  background: linear-gradient(168deg, #f0ede6 0%, var(--warm-white) 100%);
+  text-align: center;
+}
+.cta .section-title { max-width: 600px; margin: 0 auto 16px; }
+.cta .section-subtitle { max-width: 520px; margin: 0 auto 40px; }
+.cta-form {
+  max-width: 560px; margin: 0 auto;
+  background: white; border-radius: 20px; padding: 40px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.05);
+  border: 1px solid rgba(26,58,42,0.06);
+  text-align: left;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group:last-of-type { margin-bottom: 24px; }
+.form-group label {
+  display: block; font-size: 0.82rem; font-weight: 600;
+  color: var(--text); margin-bottom: 6px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 12px 16px; border: 1.5px solid var(--sand);
+  border-radius: 10px; font-family: var(--font-body); font-size: 0.92rem;
+  color: var(--text); background: var(--warm-white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,94,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-submit {
+  width: 100%; padding: 15px; border: none; border-radius: 10px;
+  background: var(--ember); color: white; font-size: 1rem;
+  font-weight: 600; font-family: var(--font-body); cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 16px rgba(196, 96, 58, 0.2);
+}
+.form-submit:hover { background: var(--ember-dark); transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--forest-deep); color: rgba(255,255,255,0.5);
+  padding: 48px 0 32px;
+}
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px;
+}
+.footer-brand { max-width: 320px; }
+.footer-brand .nav-logo { margin-bottom: 12px; }
+.footer-brand .nav-logo-text { color: white; }
+.footer-brand p { font-size: 0.85rem; line-height: 1.6; }
+.footer-links { display: flex; gap: 48px; }
+.footer-col h4 {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3); font-weight: 700; margin-bottom: 16px;
+}
+.footer-col a {
+  display: block; font-size: 0.88rem; color: rgba(255,255,255,0.55);
+  text-decoration: none; padding: 4px 0; transition: color 0.2s;
+}
+.footer-col a:hover { color: white; }
+.footer-bottom {
+  margin-top: 40px; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+  font-size: 0.8rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 2.5rem; }
+  .hero-card { max-width: 420px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .footer-inner { flex-direction: column; }
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+  .form-row { grid-template-columns: 1fr; }
+  .urgency-inner { flex-direction: column; gap: 12px; }
+  .section-title { font-size: 2rem; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 120px 0 60px; }
+  .hero h1 { font-size: 2rem; }
+  .cta-form { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#1a3a2a"/>
+        <path d="M10 24V14l8-5 8 5v10" stroke="#8db48e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 24v-6h6v6" stroke="#8db48e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="18" cy="14" r="1.5" fill="#8db48e"/>
+      </svg>
+      <span class="nav-logo-text">NW <span>HOA</span> Portal</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#wucioa">WUCIOA</a></li>
+      <li><a href="#contact" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">New law in effect — action required</div>
+        <h1>Washington law changed. Your HOA needs <em>a&nbsp;website.</em></h1>
+        <p class="hero-sub">WUCIOA requires every Washington HOA to provide centralized access to governing documents. We build affordable, compliant websites for your community — and help you understand where you stand with the new law.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Get a Free Assessment →</a>
+          <a href="#wucioa" class="btn-secondary">Learn About WUCIOA</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">⏱ Countdown to Full Applicability</div>
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <div class="countdown-num" id="cd-days">--</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cd-hours">--</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-num" id="cd-mins">--</div>
+            <div class="countdown-label">Minutes</div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-light); text-align:center; margin-bottom:4px;">until January 1, 2028</p>
+        <hr class="hero-card-divider">
+        <div class="hero-card-stat">
+          <div class="stat-icon amber">⚠</div>
+          <div class="stat-text"><strong>Old statutes repealed</strong> — RCW 64.32, 64.34, and 64.38 fully replaced. No grace period.</div>
+        </div>
+        <div class="hero-card-stat">
+          <div class="stat-icon green">📋</div>
+          <div class="stat-text"><strong>120 sections, 67,000+ words</strong> — the most comprehensive HOA statute in the U.S.</div>
+        </div>
+        <div class="hero-card-stat">
+          <div class="stat-icon blue">⚖</div>
+          <div class="stat-text"><strong>Non-compliant docs become void</strong> — conflicting provisions are automatically invalid.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── URGENCY BAR ── -->
+<div class="urgency-bar">
+  <div class="urgency-inner">
+    <div class="urgency-item">
+      <span class="urgency-dot red"></span>
+      Jan 1, 2026 — Open meetings, voting rules, EV/heat pump rights now in effect
+    </div>
+    <div class="urgency-item">
+      <span class="urgency-dot yellow"></span>
+      Now–2027 — Restate governing documents (takes 6–18 months)
+    </div>
+    <div class="urgency-item">
+      <span class="urgency-dot green"></span>
+      Jan 1, 2028 — Full WUCIOA applicability, old statutes repealed
+    </div>
+  </div>
+</div>
+
+<!-- ── PROBLEM ── -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-eyebrow">The Challenge</div>
+    <h2 class="section-title">Most HOAs aren't ready for WUCIOA</h2>
+    <p class="section-subtitle">Washington's new HOA law is the most sweeping in the nation — and the compliance burden falls squarely on volunteer board members who are already stretched thin.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-card-icon red">📄</div>
+        <h3>No central document hub</h3>
+        <p>WUCIOA requires associations to maintain extensive records and respond to requests within 10 business days. Without a website, boards are buried in one-off emails and paper requests.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon amber">⏰</div>
+        <h3>The clock is ticking</h3>
+        <p>Governing documents that conflict with WUCIOA become automatically void on January 1, 2028. The restatement process takes 6–18 months. Communities that wait until 2027 risk missing the deadline.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-icon slate">💰</div>
+        <h3>Litigation exposure</h3>
+        <p>There's no state enforcement agency — it's all private lawsuits with bilateral fee-shifting. Non-compliant actions can be challenged and invalidated within 90 days. The cost of defense far exceeds the cost of compliance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-eyebrow">What We Do</div>
+    <h2 class="section-title">Simple solutions for complex requirements</h2>
+    <p class="section-subtitle">We handle the technology and help you understand the law — so your board can focus on your community.</p>
+    <div class="services-grid">
+      <div class="service-card featured">
+        <div>
+          <span class="service-tag">Core Service</span>
+          <h3>HOA Community Website</h3>
+          <p>A clean, professional website built specifically for your HOA — designed around WUCIOA's document accessibility requirements.</p>
+          <ul class="service-list">
+            <li>Secure document library for governing docs, budgets, minutes, and reserve studies</li>
+            <li>Meeting notice board with agenda posting</li>
+            <li>Owner communication portal</li>
+            <li>Mobile-friendly, easy for board members to update</li>
+            <li>Hosted and maintained — we handle the tech</li>
+          </ul>
+        </div>
+        <div class="featured-visual">
+          <div class="mock-browser">
+            <div class="mock-browser-bar">
+              <div class="mock-dot r"></div>
+              <div class="mock-dot y"></div>
+              <div class="mock-dot g"></div>
+              <div class="mock-url">yourhoa.nwhoaportal.com</div>
+            </div>
+            <div class="mock-content">
+              <div class="mock-line short"></div>
+              <div class="mock-line med"></div>
+              <div class="mock-line accent"></div>
+              <div class="mock-line" style="width:70%"></div>
+              <div class="mock-block">
+                <div class="mock-square"></div>
+                <div class="mock-square"></div>
+                <div class="mock-square"></div>
+                <div class="mock-square"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">Compliance Guidance</span>
+        <h3>WUCIOA Readiness Opinion</h3>
+        <p>We review your governing documents and current practices against WUCIOA requirements and give you a clear, plain-English opinion on where you stand.</p>
+        <ul class="service-list">
+          <li>Document review against key WUCIOA sections</li>
+          <li>Gap identification with priority ranking</li>
+          <li>Plain-English readiness report</li>
+          <li>Recommended next steps</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <span class="service-tag">Ongoing Support</span>
+        <h3>Portal Management</h3>
+        <p>Don't have time to keep your site updated? We'll manage document uploads, meeting notices, and content updates so your site stays current and compliant.</p>
+        <ul class="service-list">
+          <li>Monthly document updates</li>
+          <li>Meeting notice posting</li>
+          <li>Content updates as needed</li>
+          <li>Annual WUCIOA readiness check-in</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Affordable for every community</h2>
+    <p class="section-subtitle">No long-term contracts. No hidden fees. Built for HOAs that need to get compliant without breaking the budget.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-name">Essentials</div>
+        <div class="price-desc">A clean community website with document hosting — the foundation of WUCIOA compliance.</div>
+        <div class="price-amount">$49<span>/mo</span></div>
+        <div class="price-period">+ $299 one-time setup</div>
+        <ul class="price-features">
+          <li>Custom HOA website</li>
+          <li>Document library (up to 50 docs)</li>
+          <li>Meeting notice board</li>
+          <li>Mobile responsive</li>
+          <li>SSL security included</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#contact" class="price-btn outline">Get Started</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="price-tier">Professional</div>
+        <div class="price-name">Compliance Ready</div>
+        <div class="price-desc">Everything in Essentials plus a WUCIOA readiness opinion and owner portal.</div>
+        <div class="price-amount">$89<span>/mo</span></div>
+        <div class="price-period">+ $499 one-time setup</div>
+        <ul class="price-features">
+          <li>Everything in Essentials</li>
+          <li>WUCIOA readiness opinion</li>
+          <li>Owner login portal</li>
+          <li>Unlimited document storage</li>
+          <li>Board member training resources</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#contact" class="price-btn primary">Get Started</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Full Service</div>
+        <div class="price-name">Managed Portal</div>
+        <div class="price-desc">We handle everything — site updates, document management, and ongoing compliance check-ins.</div>
+        <div class="price-amount">$149<span>/mo</span></div>
+        <div class="price-period">+ $499 one-time setup</div>
+        <ul class="price-features">
+          <li>Everything in Compliance Ready</li>
+          <li>Monthly content management</li>
+          <li>Meeting notice posting</li>
+          <li>Annual WUCIOA readiness review</li>
+          <li>Dedicated account manager</li>
+          <li>Phone support</li>
+        </ul>
+        <a href="#contact" class="price-btn outline">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WUCIOA TIMELINE ── -->
+<section class="wucioa" id="wucioa">
+  <div class="container wucioa-content">
+    <div class="section-eyebrow">Understanding WUCIOA</div>
+    <h2 class="section-title">The timeline every Washington HOA needs to know</h2>
+    <p class="section-subtitle">WUCIOA (RCW 64.90) is replacing all prior HOA statutes in Washington. Here's what's already happened and what's coming.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date active">July 1, 2018</div>
+          <div class="timeline-title">WUCIOA enacted</div>
+          <div class="timeline-desc">Applies in full to every community created on or after this date. Budget ratification procedures apply to all associations.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date active">June 2024</div>
+          <div class="timeline-title">ESSB 5796 — the major overhaul</div>
+          <div class="timeline-desc">Washington becomes the first state to adopt the 2021 UCIOA framework. The statute grows to 67,000+ words. Phases in full applicability for all communities by 2028.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date active">January 1, 2026 — Now in effect</div>
+          <div class="timeline-title">Cross-apply provisions kick in</div>
+          <div class="timeline-desc">Open meetings, owner comment periods, voting rules, assessments, reserve studies, EV charger rights, heat pump rights, and updated foreclosure procedures now apply to all Washington HOAs.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot upcoming"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date upcoming">Now through 2027</div>
+          <div class="timeline-title">The compliance window</div>
+          <div class="timeline-desc">Associations should be restating governing documents, updating insurance, obtaining reserve studies, and training boards. This process takes 6–18 months — don't wait.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot future"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-date future">January 1, 2028</div>
+          <div class="timeline-title">Full applicability — old laws repealed</div>
+          <div class="timeline-desc">RCW 64.32, 64.34, 64.38, and 58.19 are repealed. Every residential community falls under WUCIOA. Conflicting governing documents become automatically void. No grace period.</div>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer-box">
+      <p><strong>Important note:</strong> NW HOA Portal provides opinions and guidance on WUCIOA readiness — we are not attorneys and do not provide legal advice. Our assessments are informational only. For legal counsel on governing document amendments, compliance obligations, or dispute resolution, we recommend consulting a qualified community association attorney.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT / CTA ── -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="section-eyebrow">Get Started</div>
+    <h2 class="section-title">Let's get your community WUCIOA-ready</h2>
+    <p class="section-subtitle">Tell us about your HOA and we'll get back to you within one business day with a free initial assessment.</p>
+    <div class="cta-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="jane@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="hoa">HOA / Community Name</label>
+        <input type="text" id="hoa" placeholder="Pinecrest Homeowners Association">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="units">Number of Units</label>
+          <select id="units">
+            <option value="">Select range</option>
+            <option>Under 25</option>
+            <option>25–50</option>
+            <option>51–100</option>
+            <option>101–250</option>
+            <option>250+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="interest">Primary Interest</label>
+          <select id="interest">
+            <option value="">Select one</option>
+            <option>HOA Website</option>
+            <option>WUCIOA Readiness Opinion</option>
+            <option>Website + Compliance Package</option>
+            <option>Managed Portal</option>
+            <option>Not sure yet — just exploring</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="message">Anything else we should know?</label>
+        <textarea id="message" placeholder="Tell us about your community, current website situation, or any specific WUCIOA concerns..."></textarea>
+      </div>
+      <button class="form-submit" type="button">Request Free Assessment →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.1)"/>
+            <path d="M10 24V14l8-5 8 5v10" stroke="#8db48e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 24v-6h6v6" stroke="#8db48e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="18" cy="14" r="1.5" fill="#8db48e"/>
+          </svg>
+          <span class="nav-logo-text">NW <span style="color:var(--moss)">HOA</span> Portal</span>
+        </a>
+        <p>Affordable websites and WUCIOA compliance guidance for Washington community associations.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="#services">HOA Websites</a>
+          <a href="#services">WUCIOA Readiness</a>
+          <a href="#services">Managed Portals</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="#wucioa">WUCIOA Timeline</a>
+          <a href="#">Compliance Checklist</a>
+          <a href="#">Blog</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NWHOAPORTAL LLC. All rights reserved.</span>
+      <span>Serving Washington State HOAs</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Countdown to Jan 1, 2028
+function updateCountdown() {
+  const target = new Date('2028-01-01T00:00:00-08:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) return;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = hours;
+  document.getElementById('cd-mins').textContent = mins;
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelector('.nav-links')?.classList.remove('show');
+  });
+});
+</script>
+</body>
+</html>
