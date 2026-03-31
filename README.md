@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="banner.svg" alt="HTML Static Site Starter Banner" width="100%"/>
+</p>
+
 # HTML-static-site-starter
 
 A retro CRT terminal animation built with pure HTML, CSS, and JavaScript. Simulates a Windows XP command prompt on a vintage beige monitor — complete with scanlines, phosphor glow, and typed commands.
