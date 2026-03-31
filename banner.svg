@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 180" width="760" height="180">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4ade80"/>
+      <stop offset="100%" style="stop-color:#22c55e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="crtFlicker">
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="760" height="180" fill="url(#bgGrad)" rx="8"/>
+  <rect x="0" y="0" width="760" height="2" fill="url(#accent)" opacity="0.7"/>
+  <rect x="0" y="178" width="760" height="2" fill="url(#accent)" opacity="0.4"/>
+
+  <!-- CRT Monitor icon -->
+  <g transform="translate(90, 85)" filter="url(#glow)">
+    <!-- Outer CRT shell (rounded, bulky) -->
+    <rect x="-34" y="-38" width="68" height="52" rx="6" fill="none" stroke="#4ade80" stroke-width="2"/>
+    <!-- Inner screen -->
+    <rect x="-26" y="-32" width="52" height="38" rx="2" fill="none" stroke="#4ade80" stroke-width="1" opacity="0.5"/>
+    <!-- Scanlines -->
+    <line x1="-24" y1="-24" x2="24" y2="-24" stroke="#4ade80" stroke-width="0.5" opacity="0.2"/>
+    <line x1="-24" y1="-18" x2="24" y2="-18" stroke="#4ade80" stroke-width="0.5" opacity="0.2"/>
+    <line x1="-24" y1="-12" x2="24" y2="-12" stroke="#4ade80" stroke-width="0.5" opacity="0.2"/>
+    <line x1="-24" y1="-6" x2="24" y2="-6" stroke="#4ade80" stroke-width="0.5" opacity="0.2"/>
+    <line x1="-24" y1="0" x2="24" y2="0" stroke="#4ade80" stroke-width="0.5" opacity="0.2"/>
+    <!-- Terminal text on screen -->
+    <text x="-20" y="-20" font-family="'Courier New', monospace" font-size="7" fill="#4ade80" opacity="0.7" filter="url(#crtFlicker)">C:\&gt;_</text>
+    <!-- Monitor base -->
+    <rect x="-14" y="16" width="28" height="6" rx="2" fill="none" stroke="#4ade80" stroke-width="1.5"/>
+    <line x1="0" y1="14" x2="0" y2="16" stroke="#4ade80" stroke-width="2"/>
+    <!-- Phosphor glow dot -->
+    <circle cx="0" cy="-10" r="8" fill="#4ade80" opacity="0.04"/>
+  </g>
+
+  <!-- Accent divider -->
+  <line x1="155" y1="40" x2="155" y2="145" stroke="#4ade80" stroke-width="1" opacity="0.2"/>
+
+  <!-- Title -->
+  <text x="170" y="62" font-family="'Courier New', Courier, monospace" font-size="24" font-weight="bold" fill="#4ade80" filter="url(#glow)">HTML-static-site-starter</text>
+
+  <!-- Subtitle -->
+  <text x="172" y="90" font-family="'Courier New', Courier, monospace" font-size="13" fill="#8b949e">Retro CRT Terminal Animation</text>
+
+  <!-- Description -->
+  <text x="172" y="115" font-family="'Courier New', Courier, monospace" font-size="11" fill="#484f58">XP command prompt  ·  Scanlines + phosphor glow  ·  Pure HTML/CSS/JS</text>
+
+  <!-- Badges -->
+  <g font-family="'Courier New', Courier, monospace" font-size="9.5" font-weight="700">
+    <rect x="172" y="128" width="42" height="16" rx="3" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+    <text x="193" y="140" fill="#4ade80" text-anchor="middle">HTML</text>
+    <rect x="220" y="128" width="36" height="16" rx="3" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+    <text x="238" y="140" fill="#6b7280" text-anchor="middle">CSS</text>
+    <rect x="262" y="128" width="30" height="16" rx="3" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+    <text x="277" y="140" fill="#6b7280" text-anchor="middle">JS</text>
+    <rect x="298" y="128" width="40" height="16" rx="3" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+    <text x="318" y="140" fill="#6b7280" text-anchor="middle">retro</text>
+  </g>
+
+  <!-- Author -->
+  <text x="172" y="166" font-family="'Courier New', Courier, monospace" font-size="11" fill="#484f58">SkyzFallin</text>
+</svg>
