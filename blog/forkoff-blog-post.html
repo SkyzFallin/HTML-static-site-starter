@@ -5,128 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ForkOff: Open-Source GitHub Backup Tool That Runs While You Sleep | WesCastle Blog</title>
 <meta name="description" content="GitHub can suspend your account without warning. ForkOff is a free, open-source tool that mirrors all your repos locally every day — so it doesn't matter if they do.">
+<meta property="og:title" content="ForkOff: Open-Source GitHub Backup Tool That Runs While You Sleep">
+<meta property="og:description" content="GitHub can suspend your account without warning. ForkOff mirrors all your repos locally every day — so it doesn't matter if they do.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://wescastle.com/blog/forkoff-github-backup">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0c0e12;
-    --surface: #13161c;
-    --border: #252a34;
-    --text: #e0e4ec;
-    --text-muted: #8891a4;
-    --accent: #f97316;
-    --accent-glow: rgba(249, 115, 22, 0.15);
-    --green: #22c55e;
-    --blue: #3b82f6;
-    --purple: #a78bfa;
+    --bg: #0c0e12; --surface: #13161c; --border: #252a34;
+    --text: #e0e4ec; --text-muted: #8891a4;
+    --accent: #f97316; --accent-glow: rgba(249,115,22,0.15);
+    --green: #22c55e; --blue: #3b82f6; --purple: #a78bfa;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    line-height: 1.75;
-    -webkit-font-smoothing: antialiased;
-  }
-  .hero {
-    position: relative;
-    padding: 6rem 2rem 4rem;
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -40%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-inner { max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
-  .meta {
-    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 500;
-    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-  }
-  .meta .tag {
-    background: var(--accent); color: var(--bg); padding: 0.2em 0.65em;
-    border-radius: 3px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
-  }
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.2rem, 5vw, 3.4rem);
-    line-height: 1.15; color: #fff; margin-bottom: 1.25rem; font-weight: 400;
-  }
-  h1 .highlight { color: var(--accent); }
-  .subtitle { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; line-height: 1.7; }
-  .article { max-width: 780px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
-  .article h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.65rem; color: #fff; margin: 3rem 0 1rem; font-weight: 400;
-  }
-  .article h2:first-of-type { margin-top: 0; }
-  .article p { margin-bottom: 1.35rem; font-size: 1.04rem; }
-  .article a {
-    color: var(--accent); text-decoration: none;
-    border-bottom: 1px solid rgba(249,115,22,0.3); transition: border-color 0.2s;
-  }
-  .article a:hover { border-color: var(--accent); }
-  .article strong { font-weight: 500; color: #fff; }
-  .article code {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.88em;
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 0.15em 0.4em; border-radius: 4px;
-  }
-  .code-block {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 1.25rem 1.5rem; margin: 1.5rem 0; overflow-x: auto; position: relative;
-  }
-  .code-block::before {
-    content: attr(data-label); position: absolute; top: 0; right: 0;
-    background: var(--border); color: var(--text-muted); font-size: 0.65rem;
-    font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
-    padding: 0.25em 0.7em; border-radius: 0 7px 0 6px;
-  }
-  .code-block code {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.88rem;
-    line-height: 1.7; color: var(--text); background: none; border: none; padding: 0;
-  }
-  .code-block .cmd { color: var(--green); }
-  .code-block .flag { color: var(--purple); }
-  .code-block .path { color: var(--accent); }
-  .tree {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 1.35rem 1.5rem; margin: 1.5rem 0;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.84rem;
-    line-height: 1.8; color: var(--text-muted);
-  }
-  .tree .dir { color: var(--blue); font-weight: 500; }
-  .tree .file { color: var(--text); }
-  .tree .note { color: var(--text-muted); font-style: italic; }
-  .callout {
-    background: var(--accent-glow); border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0;
-  }
-  .callout p { margin: 0; font-size: 0.95rem; color: var(--text); }
-  .callout strong { color: var(--accent); }
-  .pull-quote {
-    border-left: 3px solid var(--border); padding: 0.75rem 1.5rem; margin: 2rem 0;
-    font-style: italic; color: var(--text-muted); font-size: 1.08rem; line-height: 1.7;
-  }
-  .article-footer {
-    border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 1.5rem;
-    font-size: 0.85rem; color: var(--text-muted);
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
-  }
-  @media (max-width: 600px) {
-    .hero { padding: 4rem 1.25rem 2.5rem; }
-    .article { padding: 2.5rem 1.25rem 3rem; }
-  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Outfit',sans-serif; font-weight:300; line-height:1.75; -webkit-font-smoothing:antialiased; }
+  .hero { position:relative; padding:6rem 2rem 4rem; overflow:hidden; border-bottom:1px solid var(--border); }
+  .hero::before { content:''; position:absolute; top:-40%; left:50%; transform:translateX(-50%); width:800px; height:800px; background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%); pointer-events:none; }
+  .hero-inner { max-width:780px; margin:0 auto; position:relative; z-index:1; }
+  .meta { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-muted); margin-bottom:1.5rem; font-weight:500; display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .meta .tag { background:var(--accent); color:var(--bg); padding:0.2em 0.65em; border-radius:3px; font-size:0.7rem; font-weight:600; letter-spacing:0.08em; }
+  h1 { font-family:'DM Serif Display',serif; font-size:clamp(2.2rem,5vw,3.4rem); line-height:1.15; color:#fff; margin-bottom:1.25rem; font-weight:400; }
+  h1 .highlight { color:var(--accent); }
+  .subtitle { font-size:1.15rem; color:var(--text-muted); max-width:600px; line-height:1.7; }
+  .article { max-width:780px; margin:0 auto; padding:3.5rem 2rem 5rem; }
+  .article h2 { font-family:'DM Serif Display',serif; font-size:1.65rem; color:#fff; margin:3rem 0 1rem; font-weight:400; }
+  .article h2:first-of-type { margin-top:0; }
+  .article p { margin-bottom:1.35rem; font-size:1.04rem; }
+  .article a { color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(249,115,22,0.3); transition:border-color 0.2s; }
+  .article a:hover { border-color:var(--accent); }
+  .article strong { font-weight:500; color:#fff; }
+  .article code { font-family:'JetBrains Mono',monospace; font-size:0.88em; background:var(--surface); border:1px solid var(--border); padding:0.15em 0.4em; border-radius:4px; }
+  .code-block { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1.25rem 1.5rem; margin:1.5rem 0; overflow-x:auto; position:relative; }
+  .code-block::before { content:attr(data-label); position:absolute; top:0; right:0; background:var(--border); color:var(--text-muted); font-size:0.65rem; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; padding:0.25em 0.7em; border-radius:0 7px 0 6px; }
+  .code-block code { font-family:'JetBrains Mono',monospace; font-size:0.88rem; line-height:1.7; color:var(--text); background:none; border:none; padding:0; }
+  .code-block .cmd { color:var(--green); }
+  .code-block .flag { color:var(--purple); }
+  .code-block .path { color:var(--accent); }
+  .tree { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1.35rem 1.5rem; margin:1.5rem 0; font-family:'JetBrains Mono',monospace; font-size:0.84rem; line-height:1.8; color:var(--text-muted); }
+  .tree .dir { color:var(--blue); font-weight:500; }
+  .tree .file { color:var(--text); }
+  .tree .note { color:var(--text-muted); font-style:italic; }
+  .callout { background:var(--accent-glow); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:1.2rem 1.5rem; margin:2rem 0; }
+  .callout p { margin:0; font-size:0.95rem; color:var(--text); }
+  .callout strong { color:var(--accent); }
+  .pull-quote { border-left:3px solid var(--border); padding:0.75rem 1.5rem; margin:2rem 0; font-style:italic; color:var(--text-muted); font-size:1.08rem; line-height:1.7; }
+  .article-footer { border-top:1px solid var(--border); margin-top:3rem; padding-top:1.5rem; font-size:0.85rem; color:var(--text-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; }
+  @media (max-width:600px) { .hero { padding:4rem 1.25rem 2.5rem; } .article { padding:2.5rem 1.25rem 3rem; } }
 </style>
 </head>
 <body>
@@ -141,6 +68,11 @@
     </div>
     <h1>Meet <span class="highlight">ForkOff</span>, the GitHub Backup You'll Forget Is Running.</h1>
     <p class="subtitle">An open-source tool that mirrors every repo you own to your own machine. Automatically. Every single day.</p>
+    <p style="margin-top:1.25rem; font-size:0.95rem; font-weight:400;">
+      <a href="https://github.com/SkyzFallin/ForkOff" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(249,115,22,0.3);">View on GitHub</a>
+      <span style="color:var(--text-muted); margin:0 0.6rem;">&middot;</span>
+      <a href="#getting-started" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(249,115,22,0.3);">Install in 5 minutes</a>
+    </p>
   </div>
 </header>
 
@@ -148,29 +80,35 @@
 
   <h2>The Story Behind This</h2>
 
-  <p>This project started the way a lot of good tools do — with someone else's nightmare. The creator, <strong>SkyzFallin</strong>, read about a developer who had their entire GitHub account suspended without warning. No email. No heads-up. Just a login page that said the account was gone for violating the terms of service. Years of repos, contribution history, sponsors, open-source work — all of it inaccessible overnight.</p>
+  <p>This project started the way a lot of good tools do &#x2014; with someone else's nightmare. The creator, <strong>SkyzFallin</strong>, read about a developer who had their entire GitHub account suspended without warning. No email. No heads-up. Just a login page that said the account was gone for violating the terms of service. Years of repos, contribution history, sponsors, open-source work &#x2014; all of it inaccessible overnight.</p>
 
-  <p>And this wasn't some edge case. The <a href="https://github.com/orgs/community/discussions/48787" target="_blank" rel="noopener">GitHub community forums</a> are full of developers — some of them maintainers of major projects — who woke up one morning locked out of their own code. Some were reinstated after weeks of waiting. Some never got a response at all. One developer lost admin access to their company's entire organization, leaving every employee unable to reach the codebase. Their whole online identity as a developer, gone in an instant.</p>
+  <p>And this wasn't some edge case. The <a href="https://github.com/orgs/community/discussions/48787" target="_blank" rel="noopener">GitHub community forums</a> are full of developers &#x2014; some of them maintainers of major projects &#x2014; who woke up one morning locked out of their own code. Some were reinstated after weeks of waiting. Some never got a response at all. One developer lost admin access to their company's entire organization, leaving every employee unable to reach the codebase. Their whole online identity as a developer, gone in an instant.</p>
 
-  <p><a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" target="_blank" rel="noopener">GitHub's Terms of Service</a> are explicit about this. They reserve the right to suspend or terminate your access at any time, with or without cause, with or without notice. There is no guaranteed recourse. If your account gets flagged by an automated system, you're at the mercy of a support queue that can take months to respond — if it responds at all.</p>
+  <p><a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" target="_blank" rel="noopener">GitHub's Terms of Service</a> are explicit about this. They reserve the right to suspend or terminate your access at any time, with or without cause, with or without notice. There is no guaranteed recourse. If your account gets flagged by an automated system, you're at the mercy of a support queue that can take months to respond &#x2014; if it responds at all.</p>
 
   <p>That's the reality of building your career on any platform you don't control. SkyzFallin decided to stop hoping it wouldn't happen and just build something that made it not matter if it did.</p>
 
   <h2>What ForkOff Actually Does</h2>
 
-  <p><a href="https://github.com/SkyzFallin/ForkOff" target="_blank" rel="noopener">ForkOff</a> is an open-source tool that runs on any Linux machine with systemd. It talks to the GitHub API, finds every repo tied to your account — public and private — and creates full <code>git clone --mirror</code> backups of each one. Not shallow copies. Full mirrors with every branch, tag, and ref.</p>
+  <p><a href="https://github.com/SkyzFallin/ForkOff" target="_blank" rel="noopener">ForkOff</a> is an open-source tool that runs on any Linux machine with systemd. It talks to the GitHub API, finds every repo tied to your account &#x2014; public and private &#x2014; and creates full <code>git clone --mirror</code> backups of each one. Not shallow copies. Full mirrors with every branch, tag, and ref.</p>
 
-  <p>Once set up, it runs daily on a schedule you choose. New repos get picked up automatically on the next run — no config changes needed. Repos are mirrored in parallel, so even if you have dozens of repositories, the whole thing finishes fast.</p>
+  <p>Once set up, it runs daily on a schedule you choose. New repos get picked up automatically on the next run &#x2014; no config changes needed. Repos are mirrored in parallel (up to 4 concurrent jobs by default), so even large accounts finish fast.</p>
 
   <p>Each run produces a JSON audit report showing what was backed up, what failed, and how big everything is. If you need to prove to a client or an auditor that backups are actually happening, the receipts are there. It also spot-checks mirror integrity with <code>git fsck</code> and can automatically test that a random mirror is restorable after each run.</p>
 
-  <p>If something goes wrong, you'll know about it. You can get notified through webhooks (Slack, Discord, whatever), push notifications via <a href="https://ntfy.sh" target="_blank" rel="noopener">ntfy</a>, healthcheck pings for services like <a href="https://healthchecks.io" target="_blank" rel="noopener">Healthchecks.io</a>, or a simple error file dropped on your desktop. Pick whichever fits your setup — or use all of them.</p>
+  <p>If something goes wrong, you'll know about it. ForkOff supports webhooks (Slack, Discord, whatever), push notifications via <a href="https://ntfy.sh" target="_blank" rel="noopener">ntfy</a>, and healthcheck pings for dead-man's-switch monitoring with services like <a href="https://healthchecks.io" target="_blank" rel="noopener">Healthchecks.io</a>. All optional, all independent &#x2014; use one or all of them.</p>
 
-  <p>The whole thing runs with solid guardrails. It checks for free disk space before starting. It won't let two backup runs overlap. If the GitHub API rate-limits you, it waits instead of failing. One repo going down doesn't take the rest of the run with it. Your token is designed to stay out of process arguments where other users on the machine could see it.</p>
+  <p>It checks for free disk space before starting, won't let two runs overlap (with stale lock detection), handles API rate limits automatically, and validates repo names against path traversal before touching the filesystem. Your token never appears in process arguments &#x2014; git auth goes through a temporary <code>GIT_ASKPASS</code> script that's deleted after each run.</p>
 
-  <h2>Getting Started</h2>
+  <p>For reference, backing up around 50 repositories typically completes in a few minutes depending on repo sizes and network speed. Storage grows proportionally &#x2014; if your GitHub account is 2 GB of code, expect roughly 2 GB of mirrors on disk.</p>
 
-  <p>You need a Linux box with systemd and a GitHub Personal Access Token with <code>repo</code> scope. The installer handles the rest.</p>
+  <div class="callout">
+    <p><strong>Is this overkill?</strong> If you only have a couple of throwaway repos, maybe. If your work matters &#x2014; it isn't.</p>
+  </div>
+
+  <h2 id="getting-started">Getting Started</h2>
+
+  <p><strong>Requirements:</strong> a Linux system with systemd, <code>git</code>, <code>curl</code>, and <code>jq</code> (auto-installed if missing), and a GitHub Personal Access Token with <code>repo</code> scope.</p>
 
   <div class="code-block" data-label="bash">
     <code><span class="cmd">git clone</span> https://github.com/SkyzFallin/ForkOff.git<br><span class="cmd">cd</span> ForkOff<br><span class="cmd">sudo bash</span> install.sh</code>
@@ -178,21 +116,31 @@
 
   <p>The installer walks you through everything interactively:</p>
 
-  <p><strong>Step 1 — Dependencies.</strong> Checks for <code>git</code>, <code>curl</code>, and <code>jq</code>. Installs anything missing via apt.</p>
+  <p><strong>Step 1 &#x2014; Dependencies.</strong> Checks for <code>git</code>, <code>curl</code>, and <code>jq</code>. Installs anything missing via apt.</p>
 
-  <p><strong>Step 2 — GitHub username.</strong> Straightforward.</p>
+  <p><strong>Step 2 &#x2014; GitHub username.</strong> Straightforward.</p>
 
-  <p><strong>Step 3 — Personal Access Token.</strong> You paste in your PAT and the installer tests it against the GitHub API immediately. If the token is bad, it stops here instead of letting you build a broken config. You can create one at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> — pick "Generate new token (classic)" and check the <code>repo</code> box. The classic token is what you want here since ForkOff uses the <code>repo</code> scope, which is specific to classic tokens.</p>
+  <p><strong>Step 3 &#x2014; Personal Access Token.</strong> You paste in a PAT with <code>repo</code> scope. The installer tests it against the GitHub API immediately &#x2014; if it's bad, it stops here. Create a classic token at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a>: click "Generate new token (classic)", check the <code>repo</code> box, and nothing else.</p>
 
-  <p><strong>Step 4 — Repo selector.</strong> This is the nice part. The installer fetches your full repo list and opens a terminal-based picker. Arrow keys to navigate, space to exclude repos you don't want backed up (forks are labeled), enter to confirm.</p>
+  <p><strong>Step 4 &#x2014; Repo selector.</strong> The installer fetches your full repo list and opens a terminal-based picker. Arrow keys to navigate, space to exclude repos you don't want backed up (forks are labeled), enter to confirm.</p>
 
-  <p><strong>Step 5 — Backup directory.</strong> Where should mirrors live? Default is <code>/opt/github-backups</code>. It creates the directory structure for you.</p>
+  <p><strong>Step 5 &#x2014; Notifications.</strong> Optionally configure webhook URLs, ntfy topics, and/or healthcheck ping URLs. Skip any or all of them.</p>
 
-  <p><strong>Step 6 — Notifications.</strong> Optionally get notified when something breaks — desktop error file, webhooks, ntfy, or healthcheck pings. Skip it entirely if you'd rather just check logs.</p>
+  <p><strong>Step 6 &#x2014; Metadata export.</strong> Optionally export GitHub issues, PRs, and releases as JSON alongside your mirrors. Requires the <a href="https://cli.github.com/" target="_blank" rel="noopener">gh CLI</a>.</p>
 
-  <p><strong>Step 7 — Schedule.</strong> Pick a time for daily backups (default: 3:00 AM UTC). Done.</p>
+  <p><strong>Step 7 &#x2014; Performance &amp; safety.</strong> Set max parallel jobs, minimum free disk space, and whether to run a restore test after each backup.</p>
 
-  <p>After you confirm, it deploys everything and runs an initial backup immediately so you're not waiting until 3 AM to find out if it works. The whole setup takes a couple of minutes. If you need to change anything later, just run the installer again — it detects the existing installation and lets you update without starting from scratch.</p>
+  <p><strong>Step 8 &#x2014; Schedule.</strong> Pick a time for daily backups (default: 3:00 AM UTC). Done.</p>
+
+  <p>After you confirm, it deploys everything and runs an initial backup immediately. The whole setup takes a couple of minutes. If you need to change anything later, just run the installer again &#x2014; it detects the existing installation and lets you update without starting from scratch.</p>
+
+  <h2>How the Token Is Stored</h2>
+
+  <p>This is the part worth calling out. ForkOff doesn't store your token in a plaintext file, an environment variable, or a <code>.env</code> sitting on disk. Instead, it uses systemd's built-in credential store (<code>systemd-creds</code>) to encrypt the token at rest. The installer runs <code>systemd-creds encrypt</code> during setup, and the encrypted credential is stored in <code>/etc/credstore/</code>. When the backup service runs, systemd decrypts it at startup and passes it to the script via a temporary credentials directory that only exists for the duration of that run. The token is never written to disk in plaintext, never appears in process arguments, and is automatically cleaned up when the service exits.</p>
+
+  <p>For git operations, authentication goes through a temporary <code>GIT_ASKPASS</code> script so the token doesn't end up embedded in clone URLs where it would be visible in <code>/proc</code>. API calls use a temporary curl config file for the same reason. Both are deleted after each run.</p>
+
+  <p>The systemd service unit is also hardened: <code>ProtectSystem=strict</code>, <code>ProtectHome=yes</code>, <code>PrivateTmp=yes</code>, <code>NoNewPrivileges=yes</code>, restricted address families, and locked-down kernel access. The backup script can only write to the backup directory and read its own config.</p>
 
   <h2>Where Your Backups Live</h2>
 
@@ -200,37 +148,42 @@
     <span class="dir">/opt/github-backups/</span><br>
     &nbsp;&nbsp;&#x251C;&#x2500;&#x2500; <span class="dir">mirrors/</span> <span class="note">&nbsp;&nbsp;# bare git mirrors (RepoName.git/)</span><br>
     &nbsp;&nbsp;&#x251C;&#x2500;&#x2500; <span class="dir">metadata/</span> <span class="note"># issues, PRs, releases as JSON (optional)</span><br>
-    &nbsp;&nbsp;&#x251C;&#x2500;&#x2500; <span class="dir">logs/</span> <span class="note">&nbsp;&nbsp;&nbsp;&nbsp;# per-run logs, auto-cleaned</span><br>
-    &nbsp;&nbsp;&#x2514;&#x2500;&#x2500; <span class="dir">reports/</span> <span class="note">&nbsp;# JSON audit reports</span>
+    &nbsp;&nbsp;&#x251C;&#x2500;&#x2500; <span class="dir">logs/</span> <span class="note">&nbsp;&nbsp;&nbsp;&nbsp;# per-run logs, 366-day retention</span><br>
+    &nbsp;&nbsp;&#x2514;&#x2500;&#x2500; <span class="dir">reports/</span> <span class="note">&nbsp;# JSON audit reports</span><br>
+    <br>
+    <span class="dir">/etc/credstore/</span><br>
+    &nbsp;&nbsp;&#x2514;&#x2500;&#x2500; <span class="file">github-backup.github-token</span> <span class="note"># encrypted PAT (systemd-creds)</span>
   </div>
-
-  <p>Your token is stored securely in a systemd environment file that only root can read. It never touches the filesystem in plaintext beyond that, and it never appears in process listings. Rotating it is a single command.</p>
 
   <h2>Restoring From a Backup</h2>
 
-  <p>If you ever need to push a mirrored repo to a new remote — say, after migrating off GitHub entirely — it's a few commands:</p>
+  <p>If you ever need to push a mirrored repo to a new remote &#x2014; say, after migrating off GitHub entirely &#x2014; it's a few commands:</p>
 
   <div class="code-block" data-label="bash">
-    <code><span class="cmd">cd</span> <span class="path">/opt/github-backups/mirrors/RepoName.git</span><br><span class="cmd">git remote set-url</span> origin git@new-host.com:user/RepoName.git<br><span class="cmd">git push</span> <span class="flag">--mirror</span></code>
+    <code><span class="cmd">cd</span> <span class="path">/opt/github-backups/mirrors/RepoName.git</span><br><span class="cmd">git remote set-url</span> origin git&#64;new-host.com:user/RepoName.git<br><span class="cmd">git push</span> <span class="flag">--mirror</span></code>
   </div>
 
   <p>Every branch, every tag, full history. That's the advantage of a true mirror over a ZIP export.</p>
 
   <h2>What About Issues and PRs?</h2>
 
-  <p>Git mirrors cover code, but a lot of useful context lives outside the repo — issues, pull requests, release notes. ForkOff has an optional metadata export that pulls these down as JSON using the <code>gh</code> CLI. Set <code>BACKUP_METADATA=true</code> in your config and each run will save issues, PRs, and releases alongside your mirrors.</p>
+  <p>Git mirrors cover code, but a lot of useful context lives outside the repo &#x2014; issues, pull requests, release notes. ForkOff has an optional metadata export that pulls these down as JSON using the <code>gh</code> CLI. Set <code>BACKUP_METADATA=true</code> in your config and each run will save issues, PRs, and releases alongside your mirrors.</p>
 
-  <p>This doesn't capture everything — Actions history, repo settings, webhooks, and deploy keys still need GitHub's built-in account export (Settings &#x2192; Archives &#x2192; Export account data). But between git mirrors and metadata export, you've got the stuff you can't easily recreate.</p>
+  <p>This doesn't capture everything &#x2014; discussions, Actions history, release binaries, webhooks, and deploy keys still need GitHub's built-in account export (Settings &#x2192; Archives &#x2192; Export account data). But between git mirrors and metadata, you've got the stuff you can't easily recreate.</p>
 
   <h2>What It Doesn't Do</h2>
 
-  <p><strong>No versioned backups.</strong> ForkOff updates mirrors in place — it's a sync, not a snapshot. If a repo gets corrupted upstream and you don't catch it before the next run, the mirror gets that corruption too. If you want rolling snapshots, layer something like <code>restic</code> or <code>rsnapshot</code> on top. ForkOff's job is getting code off GitHub. What happens after that is yours.</p>
+  <p><strong>No versioned backups.</strong> ForkOff updates mirrors in place &#x2014; it's a sync, not a snapshot. If a repo gets corrupted upstream and you don't catch it before the next run, the mirror gets that corruption too. If you want rolling snapshots, layer something like <code>restic</code> or <code>rsnapshot</code> on top. ForkOff's job is getting code off GitHub. What happens after that is yours.</p>
 
-  <p><strong>No encryption at rest.</strong> Mirrors are stored as plain git repos on disk. For public repos, this doesn't matter. But private repos with secrets in them will be sitting in cleartext. Full-disk encryption (LUKS, etc.), proper file permissions, and keeping the machine locked down are your responsibility. This is a deliberate scope decision, not an oversight.</p>
+  <p><strong>No encryption at rest for mirrors.</strong> Your token is encrypted (via <code>systemd-creds</code>), but the mirrors themselves are stored as plain git repos on disk. For public repos, this doesn't matter. But private repos with secrets in them will be sitting in cleartext. Full-disk encryption (LUKS, etc.) and proper file permissions are your responsibility.</p>
 
   <div class="callout">
-    <p><strong>Worth noting:</strong> ForkOff is MIT licensed, written entirely in Bash, and its only dependencies are standard Linux tools. The optional <code>gh</code> CLI adds metadata export if you want it.</p>
+    <p><strong>Worth noting:</strong> ForkOff is MIT licensed, written entirely in Bash, and its core dependencies are standard Linux tools (<code>git</code>, <code>curl</code>, <code>jq</code>). The optional <code>gh</code> CLI adds metadata export if you want it.</p>
   </div>
+
+  <h2>Uninstalling</h2>
+
+  <p>If you ever want to remove ForkOff, it's clean. Stop and disable the timer, remove the systemd units, config directory, and encrypted credential. Your mirror data stays untouched unless you explicitly remove it. Full uninstall steps are in the <a href="https://github.com/SkyzFallin/ForkOff#uninstall" target="_blank" rel="noopener">README</a>.</p>
 
   <h2>Who Should Use This</h2>
 
@@ -238,14 +191,7 @@
 
   <p class="pull-quote">"Back up your repos before GitHub decides they're not your repos."</p>
 
-  <p>Five minutes to set up. Runs silently every day. You'll forget it's even there — which is the whole point. Check it out: <a href="https://github.com/SkyzFallin/ForkOff" target="_blank" rel="noopener">github.com/SkyzFallin/ForkOff</a></p>
+  <p>Five minutes to set up. Runs silently every day. You'll forget it's even there &#x2014; which is the whole point. Check it out: <a href="https://github.com/SkyzFallin/ForkOff" target="_blank" rel="noopener">github.com/SkyzFallin/ForkOff</a></p>
 
   <div class="article-footer">
-    <span>Written for WesCastle Blog</span>
-    <span>Tags: open-source, devtools, backup, github, linux</span>
-  </div>
-
-</article>
-
-</body>
-</html>
+    <span>By SkyzFallin &middot; WesCastle
