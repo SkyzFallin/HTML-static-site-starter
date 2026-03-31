@@ -47,10 +47,10 @@
   <line x1="155" y1="40" x2="155" y2="145" stroke="#4ade80" stroke-width="1" opacity="0.2"/>
 
   <!-- Title -->
-  <text x="170" y="62" font-family="'Courier New', Courier, monospace" font-size="24" font-weight="bold" fill="#4ade80" filter="url(#glow)">HTML-static-site-starter</text>
+  <text x="170" y="62" font-family="'Courier New', Courier, monospace" font-size="30" font-weight="bold" fill="#4ade80" filter="url(#glow)">wescastle.com</text>
 
   <!-- Subtitle -->
-  <text x="172" y="90" font-family="'Courier New', Courier, monospace" font-size="13" fill="#8b949e">Retro CRT Terminal Animation</text>
+  <text x="172" y="90" font-family="'Courier New', Courier, monospace" font-size="13" fill="#8b949e">Retro CRT Static Site</text>
 
   <!-- Description -->
   <text x="172" y="115" font-family="'Courier New', Courier, monospace" font-size="11" fill="#484f58">XP command prompt  ·  Scanlines + phosphor glow  ·  Pure HTML/CSS/JS</text>
