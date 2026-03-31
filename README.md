@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="banner.svg" alt="wescastle.com Banner" width="100%"/>
+  <img src="banner.svg" alt="wescastle Banner" width="100%"/>
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/Author-SkyzFallin-ce9178?style=flat-square&logo=github&logoColor=white" alt="Author"/>
 </p>
 
-# wescastle.com
+# wescastle
 
 A retro CRT terminal animation built with pure HTML, CSS, and JavaScript. Simulates a Windows XP command prompt on a vintage beige monitor — complete with scanlines, phosphor glow, and typed commands.
 
