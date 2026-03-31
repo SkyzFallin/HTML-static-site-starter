@@ -1,0 +1,445 @@
+<!--
+  404 Page — Retro CRT terminal "file not found"
+  Author: SkyzFallin (https://github.com/SkyzFallin)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="SkyzFallin">
+  <title>404 — File Not Found</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+
+    .monitor {
+      width: 90vw;
+      max-width: 1000px;
+      height: 85vh;
+      background: linear-gradient(145deg, #d4c8a8 0%, #c4b89a 30%, #bfb088 50%, #b8a87c 100%);
+      border-radius: 25px 25px 30px 30px;
+      padding: 50px 45px 55px 45px;
+      box-shadow:
+        0 0 80px rgba(0, 0, 0, 0.5),
+        inset 0 2px 5px rgba(255, 255, 255, 0.2),
+        inset 0 -5px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .monitor::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(220, 200, 120, 0.4) 0%, transparent 10%),
+        radial-gradient(circle at 80% 70%, rgba(200, 180, 100, 0.3) 0%, transparent 8%),
+        radial-gradient(circle at 50% 90%, rgba(190, 170, 90, 0.3) 0%, transparent 12%);
+      pointer-events: none;
+    }
+
+    .monitor::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+    }
+
+    .monitor-logo {
+      position: absolute;
+      top: 20px;
+      right: 60px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      font-size: 24px;
+      color: #8a7a5a;
+      text-shadow:
+        1px 1px 0 rgba(255, 255, 255, 0.3),
+        -1px -1px 0 rgba(0, 0, 0, 0.3);
+      letter-spacing: 2px;
+    }
+
+    .monitor-buttons {
+      position: absolute;
+      bottom: 25px;
+      right: 60px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .monitor-button {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #a09070 0%, #7a6a50 100%);
+      box-shadow:
+        inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+        inset 0 2px 2px rgba(255, 255, 255, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+      border: 1px solid #5a4a3a;
+      position: relative;
+    }
+
+    .monitor-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), transparent);
+    }
+
+    .monitor-button.power::after {
+      background: radial-gradient(circle at 30% 30%, #f87171, #ef4444);
+      box-shadow: 0 0 6px #f87171;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, #001100 0%, #000800 50%, #000000 100%);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #000;
+      box-shadow:
+        inset 0 0 80px rgba(0, 20, 0, 0.8),
+        inset 0 0 40px rgba(51, 204, 51, 0.2),
+        0 0 20px rgba(0, 0, 0, 0.9);
+    }
+
+    .screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.3) 51%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 2;
+      animation: scanlines 8s linear infinite;
+    }
+
+    .screen::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.9) 100%);
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 12px;
+    }
+
+    @keyframes scanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(4px); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 3;
+      color: #33cc33;
+      text-shadow: 0 0 5px #33cc33, 0 0 10px #33cc33;
+      animation: flicker 0.15s infinite alternate;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.98; }
+      50% { opacity: 1; }
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #33cc33;
+      margin-bottom: 10px;
+    }
+
+    .terminal-output {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-size: 14px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin-bottom: 10px;
+    }
+
+    .terminal-output::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .terminal-output::-webkit-scrollbar-track {
+      background: #000;
+    }
+
+    .terminal-output::-webkit-scrollbar-thumb {
+      background: #33cc33;
+    }
+
+    .line {
+      margin: 2px 0;
+    }
+
+    .error-text {
+      color: #ff4444;
+      text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444;
+    }
+
+    .warning-text {
+      color: #ffaa00;
+      text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00;
+    }
+
+    .big-404 {
+      font-size: 48px;
+      line-height: 1;
+      margin: 10px 0;
+      color: #ff4444;
+      text-shadow: 0 0 10px #ff4444, 0 0 20px #ff4444, 0 0 40px #ff4444;
+      animation: glitch 3s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 94%, 100% { transform: none; opacity: 1; }
+      95% { transform: translate(-2px, 1px) skew(0.5deg); opacity: 0.8; }
+      96% { transform: translate(2px, -1px) skew(-0.5deg); opacity: 0.9; }
+      97% { transform: translate(-1px, 2px); opacity: 0.7; }
+      98% { transform: translate(1px, -2px) skew(0.3deg); opacity: 1; }
+    }
+
+    .home-link {
+      color: #33cc33;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .home-link:hover {
+      color: #66ff66;
+      text-shadow: 0 0 10px #66ff66;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 16px;
+      background: #33cc33;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="monitor">
+    <div class="monitor-logo">DULL</div>
+    <div class="monitor-buttons">
+      <div class="monitor-button power"></div>
+      <div class="monitor-button"></div>
+      <div class="monitor-button"></div>
+    </div>
+    <div class="screen">
+      <div class="content">
+        <div class="status-bar">
+          <span>STATUS: ERROR</span>
+          <span>MODE: WIN XP</span>
+          <span id="clock">03-15-08 / 00:00:00</span>
+        </div>
+        <div class="terminal-output" id="output"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const clockEl = document.getElementById('clock');
+
+    // Update clock (same as main page)
+    function updateClock() {
+      const baseDate = new Date('2008-03-15T14:32:00');
+      const now = new Date();
+      const offset = now.getTime() - new Date('2026-01-07T00:00:00').getTime();
+      const xpTime = new Date(baseDate.getTime() + offset);
+
+      const month = String(xpTime.getMonth() + 1).padStart(2, '0');
+      const day = String(xpTime.getDate()).padStart(2, '0');
+      const year = String(xpTime.getFullYear()).slice(-2);
+      const hours = String(xpTime.getHours()).padStart(2, '0');
+      const minutes = String(xpTime.getMinutes()).padStart(2, '0');
+      const seconds = String(xpTime.getSeconds()).padStart(2, '0');
+      clockEl.textContent = `${month}-${day}-${year} / ${hours}:${minutes}:${seconds}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Get the path the user tried to visit
+    const badPath = window.location.pathname || '/unknown';
+
+    const commands = [
+      { text: 'Microsoft Windows XP [Version 5.1.2600]', delay: 100 },
+      { text: '(C) Copyright 1985-2001 Microsoft Corp.', delay: 50 },
+      { text: '', delay: 300 },
+      { text: 'C:\\Documents and Settings\\Administrator>', delay: 50, noBreak: true },
+      { text: 'cd C:\\inetpub\\wwwroot', delay: 800, typed: true },
+      { text: '', delay: 200 },
+      { text: 'C:\\inetpub\\wwwroot>', delay: 50, noBreak: true },
+      { text: `dir "${badPath}"`, delay: 900, typed: true },
+      { text: '', delay: 200 },
+      { text: ' Volume in drive C has no label.', delay: 50 },
+      { text: ' Volume Serial Number is 3C4D-5E6F', delay: 50 },
+      { text: '', delay: 50 },
+      { text: ` Directory of C:\\inetpub\\wwwroot${badPath.replace(/\//g, '\\')}`, delay: 50 },
+      { text: '', delay: 50 },
+      { text: 'File Not Found', delay: 200, error: true },
+      { text: '', delay: 600 },
+      { text: 'C:\\inetpub\\wwwroot>', delay: 50, noBreak: true },
+      { text: `type "${badPath}"`, delay: 800, typed: true },
+      { text: '', delay: 200 },
+      { text: 'The system cannot find the file specified.', delay: 200, error: true },
+      { text: '', delay: 600 },
+      { text: 'C:\\inetpub\\wwwroot>', delay: 50, noBreak: true },
+      { text: 'net helpmsg 404', delay: 700, typed: true },
+      { text: '', delay: 200 },
+      { text: '', delay: 50, big404: true },
+      { text: '', delay: 100 },
+      { text: 'ERROR: HTTP 404 - FILE NOT FOUND', delay: 100, error: true },
+      { text: '', delay: 50 },
+      { text: `The requested resource "${badPath}" could not be`, delay: 50, warning: true },
+      { text: 'located on this server.', delay: 50, warning: true },
+      { text: '', delay: 400 },
+      { text: 'Possible causes:', delay: 50 },
+      { text: '  - The file has been moved or deleted', delay: 50 },
+      { text: '  - The URL contains a typo', delay: 50 },
+      { text: '  - You do not have permission to access this resource', delay: 50 },
+      { text: '  - The server is haunted', delay: 50 },
+      { text: '', delay: 600 },
+      { text: 'C:\\inetpub\\wwwroot>', delay: 50, noBreak: true },
+      { text: 'echo Try going home instead...', delay: 900, typed: true },
+      { text: '', delay: 200 },
+      { text: '', delay: 50, link: true },
+      { text: '', delay: 300 },
+      { text: 'C:\\inetpub\\wwwroot>', delay: 50, noBreak: true },
+      { text: '', delay: 50, cursor: true },
+    ];
+
+    let cmdIndex = 0;
+    let charIndex = 0;
+
+    function typeCommand() {
+      if (cmdIndex >= commands.length) return;
+
+      const cmd = commands[cmdIndex];
+
+      if (cmd.typed) {
+        if (charIndex === 0) {
+          output.lastChild.textContent += cmd.text.substring(0, 1);
+          charIndex = 1;
+          setTimeout(typeCommand, 80 + Math.random() * 120);
+        } else if (charIndex < cmd.text.length) {
+          output.lastChild.textContent += cmd.text[charIndex];
+          charIndex++;
+          setTimeout(typeCommand, 80 + Math.random() * 120);
+        } else {
+          const lineBreak = document.createElement('div');
+          lineBreak.className = 'line';
+          output.appendChild(lineBreak);
+          charIndex = 0;
+          cmdIndex++;
+          setTimeout(typeCommand, cmd.delay);
+        }
+      } else if (cmd.big404) {
+        const line = document.createElement('div');
+        line.className = 'line big-404';
+        line.textContent = '>>> ERROR 404 <<<';
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+        cmdIndex++;
+        setTimeout(typeCommand, cmd.delay);
+      } else if (cmd.link) {
+        const line = document.createElement('div');
+        line.className = 'line';
+        const link = document.createElement('a');
+        link.href = '/';
+        link.className = 'home-link';
+        link.textContent = 'C:\\> cd \\home   [CLICK HERE TO GO HOME]';
+        line.appendChild(link);
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+        cmdIndex++;
+        setTimeout(typeCommand, cmd.delay);
+      } else if (cmd.cursor) {
+        const cursorSpan = document.createElement('span');
+        cursorSpan.className = 'cursor';
+        cursorSpan.innerHTML = '&nbsp;';
+        output.lastChild.appendChild(cursorSpan);
+        cmdIndex++;
+      } else {
+        const line = document.createElement('div');
+        line.className = 'line';
+        if (cmd.error) line.classList.add('error-text');
+        if (cmd.warning) line.classList.add('warning-text');
+        line.textContent = cmd.text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+        cmdIndex++;
+        setTimeout(typeCommand, cmd.delay);
+      }
+    }
+
+    setTimeout(typeCommand, 500);
+
+    // Disable user input to maintain illusion
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'F5' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
